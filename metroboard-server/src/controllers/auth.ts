@@ -12,14 +12,14 @@ export const mockLogin = async (req: Request<never, never, ILoginReq>, res: Resp
     const hash = bcrypt.hashSync(password, salt)
 
     const user = {
-      id: uid(16),
+      _id: uid(16),
       username,
       password: hash
     }
 
     const token = jwt.sign(
       {
-        id: user.id
+        id: user._id
       },
       process.env.JWT_SECRET as string,
       { expiresIn: '30d' }
