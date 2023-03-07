@@ -4,5 +4,5 @@ export interface ITask {
   description: string
   author: string
   createdAt: Date
-  deadline: Date
+  deadline?: Date
 }
