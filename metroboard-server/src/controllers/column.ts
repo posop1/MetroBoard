@@ -2,7 +2,14 @@ import { Request, Response } from 'express'
 import { getDataFile } from '../utils/getDataFile'
 import { writeDataFile } from '../utils/writeDataFile'
 import { IColumn } from '../types/column'
-import { IColumnBodyReq, ICreateTaskParams, IGetTaskById, iCreateTaskBody } from '../types/reqTypes'
+import {
+  IColumnBodyReq,
+  ICreateTaskParams,
+  IGetTaskById,
+  ICreateTaskBody,
+  IRemoveColumn,
+  IRemoveColumnTask
+} from '../types/reqTypes'
 import { uid } from 'uid'
 import { ITask } from '../types/task'
 
@@ -63,7 +70,7 @@ export const getColumnTaskById = async (req: Request<IGetTaskById>, res: Respons
 }
 
 export const createColumnTask = async (
-  req: Request<ICreateTaskParams, never, iCreateTaskBody>,
+  req: Request<ICreateTaskParams, never, ICreateTaskBody>,
   res: Response
 ) => {
   try {
@@ -98,7 +105,52 @@ export const createColumnTask = async (
   }
 }
 
-export const removeColumnTask = async (req: Request, res: Response) => {}
+export const removeColumn = async (req: Request<IRemoveColumn>, res: Response) => {
+  try {
+    const { columnId } = req.params
+
+    const columnData = getDataFile()
+
+    const columnIndex = columnData.findIndex((item) => item._id === columnId)
+
+    if (!columnIndex) {
+      return res.status(400).json({ message: 'column not found' })
+    }
+
+    columnData.splice(columnIndex, 1)
+
+    writeDataFile(columnData)
+
+    res.json({ message: 'delete success' })
+  } catch (error) {
+    console.error('remove column error', error)
+    res.status(400).json({ message: 'error' })
+  }
+}
+
+export const removeColumnTask = async (req: Request<IRemoveColumnTask>, res: Response) => {
+  try {
+    const { columnId, taskId } = req.params
+
+    const columnData = getDataFile()
+
+    const column = columnData.find((item) => item._id === columnId)
+
+    if (!column) {
+      return res.status(400).json({ message: 'column not found' })
+    }
+
+    const taskIndex = column.tasks.findIndex((item) => item._id === taskId)
+
+    column.tasks.splice(taskIndex, 1)
+
+    writeDataFile(columnData)
+
+    res.json({ message: 'delete success' })
+  } catch (error) {
+    console.error('remove task error', error)
+    res.status(400).json({ message: 'error' })
+  }
+}
 
 //TODO: updateColumn
-//TODO: removeColumnTask
