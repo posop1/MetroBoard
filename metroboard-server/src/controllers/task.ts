@@ -18,7 +18,7 @@ export const createTask = async (
 ) => {
   try {
     const { columnId } = req.params
-    const { title, author, description } = req.body
+    const { title, author, description, deadline } = req.body
 
     const columnData = getDataFile()
 
@@ -28,20 +28,36 @@ export const createTask = async (
       return res.status(400).json({ message: 'column not found' })
     }
 
+    if (deadline) {
+      const newTaskWithDeadline: ITask = {
+        _id: uid(10),
+        title,
+        description,
+        author,
+        createdAt: new Date(),
+        deadline
+      }
+
+      column.tasks.push(newTaskWithDeadline)
+
+      writeDataFile(columnData)
+
+      return res.json(newTaskWithDeadline)
+    }
+
     const newTask: ITask = {
       _id: uid(10),
       title,
       description,
       author,
-      createdAt: new Date(),
-      deadline: new Date()
+      createdAt: new Date()
     }
 
     column.tasks.push(newTask)
 
     writeDataFile(columnData)
 
-    res.json(newTask)
+    return res.json(newTask)
   } catch (error) {
     console.error('create column task error', error)
     res.status(400).json({ message: 'error' })
