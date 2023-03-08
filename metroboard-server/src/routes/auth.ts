@@ -3,6 +3,6 @@ import { mockLogin } from '../controllers/auth'
 
 const router = Router()
 
-router.post('/mocklogin', mockLogin)
+router.post('/login', mockLogin)
 
 export default router
