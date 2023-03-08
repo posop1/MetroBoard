@@ -26,3 +26,22 @@ export interface IRemoveColumnTask {
 export interface IRemoveColumn {
   columnId: string
 }
+
+export interface IUpdateColumnBody {
+  title: string
+}
+
+export interface IUpdateColumnParams {
+  columnId: string
+}
+
+export interface IUpdateTaskBody {
+  title: string
+  description: string
+  deadline?: Date
+}
+
+export interface IUpdateTaskParams {
+  columnId: string
+  taskId: string
+}

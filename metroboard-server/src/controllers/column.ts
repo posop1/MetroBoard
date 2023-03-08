@@ -8,7 +8,11 @@ import {
   IGetTaskById,
   ICreateTaskBody,
   IRemoveColumn,
-  IRemoveColumnTask
+  IRemoveColumnTask,
+  IUpdateColumnBody,
+  IUpdateColumnParams,
+  IUpdateTaskParams,
+  IUpdateTaskBody
 } from '../types/reqTypes'
 import { uid } from 'uid'
 import { ITask } from '../types/task'
@@ -46,7 +50,67 @@ export const getAllColumn = async (req: Request, res: Response) => {
   }
 }
 
-export const updateColumn = async (req: Request, res: Response) => {}
+export const updateColumn = async (
+  req: Request<IUpdateColumnParams, never, IUpdateColumnBody>,
+  res: Response
+) => {
+  try {
+    const { columnId } = req.params
+    const { title } = req.body
+
+    const columnData = getDataFile()
+
+    const column = columnData.find((item) => item._id === columnId)
+
+    if (!column) {
+      return res.status(400).json({ message: 'column not found' })
+    }
+
+    column.title = title
+
+    writeDataFile(columnData)
+
+    res.json(column)
+  } catch (error) {
+    console.error('update column error', error)
+    res.status(400).json({ message: 'error' })
+  }
+}
+
+export const updateTask = async (
+  req: Request<IUpdateTaskParams, never, IUpdateTaskBody>,
+  res: Response
+) => {
+  try {
+    const { columnId, taskId } = req.params
+    const { description, title, deadline } = req.body
+
+    const columnData = getDataFile()
+
+    const column = columnData.find((item) => item._id === columnId)
+    if (!column) {
+      return res.status(400).json({ message: 'column not found' })
+    }
+
+    const task = column.tasks.find((item) => item._id === taskId)
+    if (!task) {
+      return res.status(400).json({ message: 'task not found' })
+    }
+
+    task.title = title
+    task.description = description
+    if (task.deadline) {
+      task.deadline = deadline
+    }
+
+    writeDataFile(columnData)
+
+    res.json(task)
+  } catch (error) {
+    console.error('update task error', error)
+    res.status(400).json({ message: 'error' })
+  }
+}
 
 export const getColumnTaskById = async (req: Request<IGetTaskById>, res: Response) => {
   try {
@@ -60,7 +124,7 @@ export const getColumnTaskById = async (req: Request<IGetTaskById>, res: Respons
       return res.status(400).json({ message: 'column not found' })
     }
 
-    const task = column?.tasks.find((item) => item._id === taskId)
+    const task = column.tasks.find((item) => item._id === taskId)
 
     res.json(task)
   } catch (error) {
