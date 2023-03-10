@@ -1,8 +1,10 @@
 import fs from 'fs'
 import path from 'path'
-import { ITask } from '../types/task'
-import { IColumn } from '../types/column'
 
-export const writeDataFile = (data: any) => {
-  fs.writeFileSync(path.join(__dirname, '../../data/columnData.json'), JSON.stringify(data))
+export const writeDataFile = (data: any, type: 'task' | 'column') => {
+  if (type === 'column') {
+    fs.writeFileSync(path.join(__dirname, '../../data/columnData.json'), JSON.stringify(data))
+  } else if (type === 'task') {
+    fs.writeFileSync(path.join(__dirname, '../../data/taskData.json'), JSON.stringify(data))
+  }
 }

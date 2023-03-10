@@ -5,4 +5,5 @@ export interface ITask {
   author: string
   createdAt: Date
   deadline?: Date
+  columnId: string
 }
