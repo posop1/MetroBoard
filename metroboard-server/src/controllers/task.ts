@@ -149,6 +149,8 @@ export const deleteTask = async (req: Request<IParamsId>, res: Response) => {
 
     taskData.splice(taskId, 1)
 
+    writeTaskData(taskData)
+
     res.json({ message: 'delete success' })
   } catch (error) {
     console.log('delete task error', error)
