@@ -3,7 +3,8 @@ export interface ITask {
   title: string
   description: string
   author: string
-  createdAt: Date
   deadline?: Date
   columnId: string
+  createdAt: Date
+  updatedAt: Date
 }

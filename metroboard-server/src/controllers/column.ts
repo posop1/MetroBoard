@@ -1,19 +1,11 @@
 import { Request, Response } from 'express'
-import {
-  ICreateColumnBody,
-  IDeleteColumnParams,
-  IUpdateColumnBody,
-  IUpdateColumnParams
-} from '../types/reqTypes'
+import { IParamsId, IColumnBodyReq } from '../types/reqTypes'
 import { getColumnData } from '../utils/getDataFile'
 import { IColumn } from '../types/column'
 import { uid } from 'uid'
 import { writeColumnData } from '../utils/writeDataFile'
 
-export const createColumn = async (
-  req: Request<never, never, ICreateColumnBody>,
-  res: Response
-) => {
+export const createColumn = async (req: Request<never, never, IColumnBodyReq>, res: Response) => {
   try {
     const { title } = req.body
     const columnData = getColumnData()
@@ -56,7 +48,7 @@ export const getAllColumn = async (req: Request, res: Response) => {
 }
 
 export const updateColumn = async (
-  req: Request<IUpdateColumnParams, never, IUpdateColumnBody>,
+  req: Request<IParamsId, never, IColumnBodyReq>,
   res: Response
 ) => {
   try {
@@ -81,12 +73,12 @@ export const updateColumn = async (
 
     res.json(column)
   } catch (error) {
-    console.log(error)
+    console.log('update column error', error)
     res.status(400).json({ message: 'error' })
   }
 }
 
-export const deleteColumn = async (req: Request<IDeleteColumnParams>, res: Response) => {
+export const deleteColumn = async (req: Request<IParamsId>, res: Response) => {
   try {
     const { id } = req.params
     const columnData = getColumnData()
@@ -106,7 +98,7 @@ export const deleteColumn = async (req: Request<IDeleteColumnParams>, res: Respo
 
     res.json({ message: 'delete success' })
   } catch (error) {
-    console.log(error)
+    console.log('delete column error', error)
     res.status(400).json({ message: 'error' })
   }
 }

@@ -1,14 +1,16 @@
+export interface IParamsId {
+  id: string
+}
+
 // Column
-export interface ICreateColumnBody {
-  title: string
-}
-export interface IDeleteColumnParams {
-  id: string
-}
-export interface IUpdateColumnParams {
-  id: string
-}
-export interface IUpdateColumnBody {
+export interface IColumnBodyReq {
   title: string
 }
 // Task
+export interface ITaskBodyReq {
+  title: string
+  description: string
+  author: string
+  deadline?: Date
+  columnId: string
+}
