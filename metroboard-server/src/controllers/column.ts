@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 import { IParamsId, IColumnBodyReq } from '../types/reqTypes'
-import { getColumnData } from '../utils/getDataFile'
+import { getColumnData, getTaskData } from '../utils/getDataFile'
 import { IColumn } from '../types/column'
 import { uid } from 'uid'
 import { writeColumnData } from '../utils/writeDataFile'
@@ -43,6 +43,24 @@ export const getAllColumn = async (req: Request, res: Response) => {
     res.json(columnData)
   } catch (error) {
     console.log('get all column error', error)
+    res.status(400).json({ message: 'error' })
+  }
+}
+
+export const getColumnTask = async (req: Request<IParamsId>, res: Response) => {
+  try {
+    const { id } = req.params
+
+    const taskData = getTaskData()
+    if (!taskData) {
+      return res.status(400).json({ message: 'task data not found' })
+    }
+
+    const tasks = taskData.filter((task) => task.columnId === id)
+
+    res.json(tasks)
+  } catch (error) {
+    console.log('get column tasks error', error)
     res.status(400).json({ message: 'error' })
   }
 }
