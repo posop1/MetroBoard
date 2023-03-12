@@ -1,21 +1,9 @@
 <template>
   <v-app>
-    <v-main>
-      <router-view/>
-    </v-main>
+    <Layout />
   </v-app>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
-
-export default defineComponent({
-  name: 'App',
-
-  data () {
-    return {
-      //
-    }
-  },
-})
+<script lang="ts" setup>
+import Layout from './components/Layout/Layout.vue'
 </script>
