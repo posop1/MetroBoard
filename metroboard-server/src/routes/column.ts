@@ -3,7 +3,7 @@ import {
   createColumn,
   deleteColumn,
   getAllColumn,
-  getColumnTask,
+  getColumnTasks,
   updateColumn
 } from '../controllers/column'
 
@@ -11,7 +11,7 @@ const router = Router()
 
 router.post('/', createColumn)
 router.get('/', getAllColumn)
-router.get('/:id', getColumnTask)
+router.get('/:id', getColumnTasks)
 router.put('/:id', updateColumn)
 router.delete('/:id', deleteColumn)
 

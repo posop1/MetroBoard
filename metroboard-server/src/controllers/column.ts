@@ -47,7 +47,7 @@ export const getAllColumn = async (req: Request, res: Response) => {
   }
 }
 
-export const getColumnTask = async (req: Request<IParamsId>, res: Response) => {
+export const getColumnTasks = async (req: Request<IParamsId>, res: Response) => {
   try {
     const { id } = req.params
 
