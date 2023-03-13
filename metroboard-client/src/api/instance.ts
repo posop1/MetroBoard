@@ -1,3 +1,4 @@
+import { getCookie } from '@/utils/getCookie'
 import axios from 'axios'
 
 const api = axios.create({
@@ -8,7 +9,7 @@ const api = axios.create({
 })
 
 api.interceptors.request.use((config) => {
-  config.headers.Authorization = window.localStorage.getItem('token')
+  config.headers.Authorization = getCookie('token')
 
   return config
 })

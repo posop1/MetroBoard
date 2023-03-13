@@ -1,5 +1,7 @@
 import api from '@/api/instance'
 import { ActionsParams, ILoginFetch, IRegisterFetch, fetchParams } from './types'
+import { setCookie } from '@/utils/setCookie'
+import { deleteCookie } from '@/utils/deleteCookie'
 
 export const registerUser = async (
   { commit }: ActionsParams,
@@ -13,7 +15,7 @@ export const registerUser = async (
 
     commit('setUser', { user: data.newUser, token: data.token, status: data.message })
     if (data.token) {
-      localStorage.setItem('token', data.token)
+      setCookie('token', data.token)
     }
   } catch (error: any) {
     console.log(error)
@@ -32,7 +34,7 @@ export const loginUser = async ({ commit }: ActionsParams, { username, password 
 
     if (data.token) {
       commit('setUser', { user: data.user, token: data.token, status: data.message })
-      localStorage.setItem('token', data.token)
+      setCookie('token', data.token)
     }
   } catch (error: any) {
     console.log(error)
@@ -48,4 +50,5 @@ export const getMe = async ({ commit }: ActionsParams) => {
 
 export const logout = ({ commit }: ActionsParams) => {
   commit('logoutUser')
+  deleteCookie('token')
 }

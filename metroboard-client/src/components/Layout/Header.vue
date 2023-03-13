@@ -18,7 +18,12 @@
     <v-btn
       v-if="store.getters.checkAuth === true"
       icon="mdi-logout"
-      @click="() => store.dispatch('logout')"
+      @click="
+        () => {
+          router.push('/login')
+          store.dispatch('logout')
+        }
+      "
     >
     </v-btn>
     <v-btn
@@ -31,7 +36,9 @@
 
 <script setup lang="ts">
 import { key } from '@/store/store'
+import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 
 const store = useStore(key)
+const router = useRouter()
 </script>

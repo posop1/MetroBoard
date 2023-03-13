@@ -13,5 +13,4 @@ export const setUser = (
 export const logoutUser = (state: AuthState) => {
   state.user = null
   state.token = null
-  localStorage.removeItem('token')
 }
