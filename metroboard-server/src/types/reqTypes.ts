@@ -14,3 +14,9 @@ export interface ITaskBodyReq {
   deadline?: Date
   columnId: string
 }
+
+// User
+export interface ILoginReq {
+  username: string
+  password: string
+}
