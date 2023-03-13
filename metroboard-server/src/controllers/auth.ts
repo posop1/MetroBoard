@@ -19,7 +19,7 @@ export const register = async (req: Request<never, never, ILoginReq>, res: Respo
     const isUsed = userData.find((user) => user.username === username)
     if (isUsed) {
       return res.status(400).json({
-        message: 'username is busy'
+        message: 'Username is busy'
       })
     }
 
@@ -65,12 +65,12 @@ export const login = async (req: Request<never, never, ILoginReq>, res: Response
 
     const user = userData.find((user) => user.username === username)
     if (!user) {
-      return res.status(400).json({ message: 'user not found' })
+      return res.status(400).json({ message: 'User not found' })
     }
 
     const isPasswordCorrect = await bcrypt.compare(password, user.password)
     if (!isPasswordCorrect) {
-      return res.status(400).json({ message: 'password not correct' })
+      return res.status(400).json({ message: 'Password not correct' })
     }
 
     const token = jwt.sign(
@@ -100,7 +100,7 @@ export const getMe = async (req: Request, res: Response) => {
 
     const user = userData.find((user) => user._id === req.headers.userId)
     if (!user) {
-      return res.status(400).json({ message: 'user not found' })
+      return res.status(400).json({ message: 'User not found' })
     }
 
     const token = jwt.sign(
