@@ -16,10 +16,22 @@
       </h2>
     </v-row>
     <v-btn
+      v-if="store.getters.checkAuth === true"
+      icon="mdi-logout"
+      @click="() => store.dispatch('logout')"
+    >
+    </v-btn>
+    <v-btn
+      v-else
       icon="mdi-login"
       :to="'/login'"
     ></v-btn>
   </v-app-bar>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { key } from '@/store/store'
+import { useStore } from 'vuex'
+
+const store = useStore(key)
+</script>

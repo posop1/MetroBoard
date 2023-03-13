@@ -1,9 +1,7 @@
 <template>
   <v-main>
-    <v-layout :full-height="true">
-      <Header />
-      <router-view />
-    </v-layout>
+    <Header />
+    <router-view />
   </v-main>
 </template>
 
