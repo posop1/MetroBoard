@@ -1,11 +1,11 @@
 import api from '@/api/instance'
-import { ActionsParams, ILoginFetch, IRegisterFetch, fetchParams } from './types'
+import { IActionsParams, ILoginFetch, IRegisterFetch, IFetchParams } from './types'
 import { setCookie } from '@/utils/setCookie'
 import { deleteCookie } from '@/utils/deleteCookie'
 
 export const registerUser = async (
-  { commit }: ActionsParams,
-  { username, password }: fetchParams
+  { commit }: IActionsParams,
+  { username, password }: IFetchParams
 ) => {
   try {
     const { data } = await api.post<IRegisterFetch>('/auth/register', {
@@ -23,7 +23,10 @@ export const registerUser = async (
   }
 }
 
-export const loginUser = async ({ commit }: ActionsParams, { username, password }: fetchParams) => {
+export const loginUser = async (
+  { commit }: IActionsParams,
+  { username, password }: IFetchParams
+) => {
   try {
     const { data } = await api.post<ILoginFetch>('/auth/login', {
       username,
@@ -42,13 +45,13 @@ export const loginUser = async ({ commit }: ActionsParams, { username, password 
   }
 }
 
-export const getMe = async ({ commit }: ActionsParams) => {
+export const getMe = async ({ commit }: IActionsParams) => {
   const { data } = await api.get('/auth/me')
 
   commit('setUser', { user: data.user, token: data.token, status: data.message })
 }
 
-export const logout = ({ commit }: ActionsParams) => {
+export const logout = ({ commit }: IActionsParams) => {
   commit('logoutUser')
   deleteCookie('token')
 }

@@ -14,7 +14,6 @@ export interface AuthState {
   user: IUser | null
   token: string | null
   status: string | null
-  isLoading: boolean
 }
 
 export interface IRegisterFetch {
@@ -28,11 +27,11 @@ export interface ILoginFetch {
   token: string
 }
 
-export interface ActionsParams {
+export interface IActionsParams {
   commit: Commit
 }
 
-export interface fetchParams {
+export interface IFetchParams {
   username: string
   password: string
 }

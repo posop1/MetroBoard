@@ -1,12 +1,10 @@
-import { AuthState } from './types'
 import * as actions from './actions'
 import * as getters from './getters'
 import * as mutations from './mutations'
-import { getCookie } from '@/utils/getCookie'
+import { IColumnState } from './types'
 
-const state: AuthState = {
-  user: null,
-  token: getCookie('token'),
+const state: IColumnState = {
+  columns: [],
   status: null
 }
 
