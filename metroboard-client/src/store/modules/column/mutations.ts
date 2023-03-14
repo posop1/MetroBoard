@@ -11,7 +11,7 @@ export const createColumn = (state: IColumnState, payload: { column: IColumn; st
 }
 
 export const removeColumn = (state: IColumnState, payload: { column: IColumn; status: string }) => {
-  state.columns = state.columns?.filter((column) => column._id !== payload.column._id)
+  state.columns = state.columns.filter((column) => column._id !== payload.column._id)
   state.status = payload.status
 }
 

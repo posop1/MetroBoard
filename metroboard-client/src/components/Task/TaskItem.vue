@@ -1,11 +1,11 @@
 <template>
   <v-sheet
     elevation="2"
-    class="pa-2 mt-3 rounded-lg"
-    color="#E0E0E0"
-    min-height="70"
+    class="pa-3 mb-7 rounded-lg w-100 d-flex flex-column bg-grey-lighten-3"
+    min-height="90"
   >
-    <span class="font-weight-medium">{{ task.title }}</span>
+    <span class="font-weight-medium text-h6">{{ task.title }}</span>
+    <span class="text-subtitle-2">{{ task.author }}</span>
   </v-sheet>
 </template>
 
