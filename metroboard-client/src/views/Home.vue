@@ -1,7 +1,9 @@
 <template>
-  <v-container>
-    <ColumnList :columns="store.getters.getColumns" />
-  </v-container>
+  <v-layout :full-height="true">
+    <v-container :fluid="true">
+      <ColumnList :columns="store.getters.getColumns" />
+    </v-container>
+  </v-layout>
 </template>
 
 <script setup lang="ts">
