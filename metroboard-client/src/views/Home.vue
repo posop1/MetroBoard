@@ -1,5 +1,5 @@
 <template>
-  <v-layout :full-height="true">
+  <v-layout>
     <v-container :fluid="true">
       <ColumnList :columns="store.getters.getColumns" />
     </v-container>

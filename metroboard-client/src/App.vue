@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-layout :full-height="true">
+    <v-layout>
       <Layout />
     </v-layout>
   </v-app>

@@ -2,9 +2,8 @@
   <v-sheet
     min-width="350"
     min-height="100"
-    max-height="800"
     elevation="2"
-    class="ma-5 d-flex flex-column align-center pa-5 h-100"
+    class="ma-5 d-flex flex-column align-center pa-5 h-100 sheet"
   >
     <v-row class="mb-5 w-100 d-flex flex-row align-center justify-space-between">
       <input
@@ -19,10 +18,7 @@
       >
         {{ column.title }}
       </p>
-      <v-menu
-        open-on-hover
-        v-if="isUpdate === false"
-      >
+      <v-menu v-if="isUpdate === false">
         <template v-slot:activator="{ props }">
           <v-btn
             icon="mdi-dots-horizontal"
@@ -32,10 +28,10 @@
           </v-btn>
         </template>
 
-        <v-list>
+        <v-list class="mt-2">
           <v-list-item>
             <v-btn
-              class="w-100"
+              class="w-100 bg-red-darken-1"
               size="small"
               @click="isUpdateHandler"
             >
@@ -45,7 +41,7 @@
           </v-list-item>
           <v-list-item>
             <v-btn
-              class="w-100"
+              class="w-100 bg-red-darken-1"
               size="small"
               @click="deleteColumn"
             >
@@ -107,14 +103,13 @@ const updateColumn = () => {
   column.title = columnTitle.value
 }
 const deleteColumn = () => {
-  store.dispatch('removeColumn', { column })
+  store.dispatch('removeColumn', { columnId: column._id })
 }
 const fetchTasks = async () => {
   try {
     const { data } = await api.get(`/column/${column._id}`)
 
     tasks.value = data
-    console.log(data)
   } catch (error) {
     console.log(error)
   }
@@ -131,5 +126,8 @@ onMounted(() => {
   border-radius: 5px;
   padding: 0px 0px;
   outline: none;
+}
+.sheet {
+  max-height: 83vh;
 }
 </style>
