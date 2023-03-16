@@ -68,13 +68,14 @@
     <TaskList
       v-if="tasks"
       :tasks="tasks"
+      :column-id="column._id"
     />
   </v-sheet>
 </template>
 
 <script setup lang="ts">
 import { IColumn } from '@/store/modules/column/types'
-import { ITask } from '@/types/task'
+import { ITask } from '@/store/modules/task/types'
 import { ref } from 'vue'
 import TaskList from '../Task/TaskList.vue'
 import { useStore } from 'vuex'
