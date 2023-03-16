@@ -1,48 +1,52 @@
 <template>
-  <v-list class="d-flex h-100">
-    <ColumnItem
-      v-for="column in columns"
-      :key="column._id"
-      :column="column"
-    />
-    <v-sheet
-      v-if="isCreating"
-      min-width="300"
-      elevation="2"
-      max-height="800"
-      class="ma-5 pa-5"
-    >
-      <v-text-field
-        type="text"
-        label="Column title"
-        variant="outlined"
-        v-model="title"
-      ></v-text-field>
-      <v-btn
-        block
-        class="mb-5"
-        @click="createColumn"
+  <CustomScrollbar
+    :style="{ width: '100%', padding: '12px' }"
+    direction="horizontal"
+  >
+    <v-list class="d-flex h-100">
+      <ColumnItem
+        v-for="column in columns"
+        :key="column._id"
+        :column="column"
+      />
+      <v-sheet
+        v-if="isCreating"
+        min-width="300"
+        elevation="2"
+        class="ma-5 pa-5"
       >
-        Add
-      </v-btn>
-      <v-btn
-        block
-        @click="() => (isCreating = false)"
-        >Cancel</v-btn
+        <v-text-field
+          type="text"
+          label="Column title"
+          variant="outlined"
+          v-model="title"
+        ></v-text-field>
+        <v-btn
+          block
+          class="mb-5"
+          @click="createColumn"
+        >
+          Add
+        </v-btn>
+        <v-btn
+          block
+          @click="() => (isCreating = false)"
+          >Cancel</v-btn
+        >
+      </v-sheet>
+      <v-sheet
+        min-width="300"
+        elevation="2"
+        class="ma-5 d-flex flex-column align-center justify-center"
       >
-    </v-sheet>
-    <v-sheet
-      min-width="300"
-      elevation="2"
-      max-height="800"
-      class="ma-5 d-flex flex-column align-center justify-center"
-    >
-      <v-btn
-        icon="mdi-plus"
-        @click="() => (isCreating = true)"
-      ></v-btn>
-    </v-sheet>
-  </v-list>
+        <v-btn
+          icon="mdi-plus"
+          class="bg-red-darken-1"
+          @click="() => (isCreating = true)"
+        ></v-btn>
+      </v-sheet>
+    </v-list>
+  </CustomScrollbar>
 </template>
 
 <script setup lang="ts">
@@ -68,3 +72,12 @@ const createColumn = () => {
   title.value = ''
 }
 </script>
+
+<style scoped>
+.scroll-area {
+  position: relative;
+  margin: auto;
+  width: 600px;
+  height: 400px;
+}
+</style>
