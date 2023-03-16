@@ -10,9 +10,14 @@ export const createColumn = (state: IColumnState, payload: { column: IColumn; st
   state.status = payload.status
 }
 
-export const removeColumn = (state: IColumnState, payload: { column: IColumn; status: string }) => {
-  state.columns = state.columns.filter((column) => column._id !== payload.column._id)
-  state.status = payload.status
+export const removeColumn = (
+  state: IColumnState,
+  payload: { columnId: string; status: { message: string } }
+) => {
+  const index = state.columns.findIndex((column) => column._id === payload.columnId)
+  state.columns.splice(index, 1)
+
+  state.status = payload.status.message
 }
 
 export const updateColumn = (state: IColumnState, payload: { column: IColumn; status: string }) => {

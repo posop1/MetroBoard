@@ -105,7 +105,6 @@ export const deleteColumn = async (req: Request<IParamsId>, res: Response) => {
       return res.status(400).json({ message: 'column data not found' })
     }
 
-    const column = columnData.find((column) => column._id === id)
     const columnId = columnData.findIndex((column) => column._id === id)
     if (!columnId) {
       return res.status(400).json({ message: 'column not found' })
@@ -115,7 +114,7 @@ export const deleteColumn = async (req: Request<IParamsId>, res: Response) => {
 
     writeColumnData(columnData)
 
-    res.json(column)
+    res.json({ message: 'delete success' })
   } catch (error) {
     console.log('delete column error', error)
     res.status(400).json({ message: 'error' })
