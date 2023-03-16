@@ -5,10 +5,12 @@ import auth from './modules/auth'
 import column from './modules/column'
 import task from './modules/task'
 import { IColumn } from './modules/column/types'
+import { ITask } from './modules/task/types'
 
 export interface State {
   user: IUser
   columns: IColumn[]
+  tasks: ITask[]
 }
 
 export const key: InjectionKey<Store<State>> = Symbol()
