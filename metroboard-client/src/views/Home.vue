@@ -1,7 +1,11 @@
 <template>
   <v-layout>
     <v-container :fluid="true">
-      <ColumnList :columns="store.getters.getColumns" />
+      <ColumnList
+        :columns="store.getters.getColumns"
+        :tasks="store.getters.getTasks"
+      />
+      <RouterView />
     </v-container>
   </v-layout>
 </template>
@@ -16,5 +20,6 @@ const store = useStore(key)
 
 onMounted(() => {
   store.dispatch('fetchColumns')
+  store.dispatch('fetchTasks')
 })
 </script>

@@ -8,6 +8,7 @@
         v-for="column in columns"
         :key="column._id"
         :column="column"
+        :tasks="tasks.filter((task) => task.columnId === column._id)"
       />
       <v-sheet
         v-if="isCreating"
@@ -55,12 +56,14 @@ import ColumnItem from './ColumnItem.vue'
 import { useStore } from 'vuex'
 import { key } from '@/store/store'
 import { ref } from 'vue'
+import { ITask } from '@/types/task'
 
 interface ColumnListProps {
   columns: IColumn[]
+  tasks: ITask[]
 }
 
-const { columns } = defineProps<ColumnListProps>()
+const { columns, tasks } = defineProps<ColumnListProps>()
 const store = useStore(key)
 
 const isCreating = ref(false)

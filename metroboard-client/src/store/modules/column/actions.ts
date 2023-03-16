@@ -1,6 +1,5 @@
 import api from '@/api/instance'
 import { IActionsParams, IColumn } from './types'
-import column from '.'
 
 export const fetchColumns = async ({ commit }: IActionsParams) => {
   try {

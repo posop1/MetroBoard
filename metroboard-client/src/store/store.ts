@@ -3,6 +3,7 @@ import { Store, createStore } from 'vuex'
 import { InjectionKey } from 'vue'
 import auth from './modules/auth'
 import column from './modules/column'
+import task from './modules/task'
 import { IColumn } from './modules/column/types'
 
 export interface State {
@@ -15,6 +16,7 @@ export const key: InjectionKey<Store<State>> = Symbol()
 export const store = createStore({
   modules: {
     auth,
-    column
+    column,
+    task
   }
 })

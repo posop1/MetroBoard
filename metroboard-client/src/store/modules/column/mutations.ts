@@ -2,6 +2,7 @@ import { IColumn, IColumnState } from './types'
 
 export const setColumn = (state: IColumnState, payload: { columns: IColumn[]; status: string }) => {
   state.columns = payload.columns
+
   state.status = payload.status
 }
 

@@ -73,21 +73,19 @@
 </template>
 
 <script setup lang="ts">
-import api from '@/api/instance'
 import { IColumn } from '@/store/modules/column/types'
 import { ITask } from '@/types/task'
-import { ref, onMounted } from 'vue'
+import { ref } from 'vue'
 import TaskList from '../Task/TaskList.vue'
 import { useStore } from 'vuex'
 import { key } from '@/store/store'
 
 interface ColumnItemProps {
   column: IColumn
+  tasks: ITask[]
 }
-const { column } = defineProps<ColumnItemProps>()
+const { column, tasks } = defineProps<ColumnItemProps>()
 const store = useStore(key)
-
-const tasks = ref<ITask[]>()
 
 const isUpdate = ref(false)
 const columnTitle = ref(column.title)
@@ -105,19 +103,6 @@ const updateColumn = () => {
 const deleteColumn = () => {
   store.dispatch('removeColumn', { columnId: column._id })
 }
-const fetchTasks = async () => {
-  try {
-    const { data } = await api.get(`/column/${column._id}`)
-
-    tasks.value = data
-  } catch (error) {
-    console.log(error)
-  }
-}
-
-onMounted(() => {
-  fetchTasks()
-})
 </script>
 
 <style scoped>

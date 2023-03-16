@@ -22,15 +22,12 @@
 <script setup lang="ts">
 import { ITask } from '@/types/task'
 import TaskItem from './TaskItem.vue'
-import { ref } from 'vue'
 
 interface TaskListProps {
   tasks: ITask[]
 }
 
 const { tasks } = defineProps<TaskListProps>()
-
-const isCreating = ref(false)
 </script>
 
 <style>

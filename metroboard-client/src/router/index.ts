@@ -1,12 +1,20 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import { store } from '@/store/store'
 import Home from '../views/Home.vue'
+import TaskModalVue from '@/views/TaskModal.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
     name: 'home',
     component: Home,
+    children: [
+      {
+        path: '/task/:id',
+        name: 'task modal',
+        component: TaskModalVue
+      }
+    ],
     meta: {
       requiresAuth: true
     }
