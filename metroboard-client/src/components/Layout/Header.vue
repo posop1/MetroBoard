@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar flat>
+  <v-app-bar elevation="1">
     <v-toolbar-title>
       <v-img
         src="https://www.metro-set.ru/data/common/logo/logo.svg"
