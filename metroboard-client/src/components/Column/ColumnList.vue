@@ -56,7 +56,7 @@ import ColumnItem from './ColumnItem.vue'
 import { useStore } from 'vuex'
 import { key } from '@/store/store'
 import { ref } from 'vue'
-import { ITask } from '@/types/task'
+import { ITask } from '@/store/modules/task/types'
 
 interface ColumnListProps {
   columns: IColumn[]

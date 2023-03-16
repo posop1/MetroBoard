@@ -20,7 +20,7 @@
 </template>
 
 <script setup lang="ts">
-import { ITask } from '@/types/task'
+import { ITask } from '@/store/modules/task/types'
 import TaskItem from './TaskItem.vue'
 
 interface TaskListProps {

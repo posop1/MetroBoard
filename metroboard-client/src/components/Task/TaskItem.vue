@@ -19,7 +19,7 @@
 </template>
 
 <script setup lang="ts">
-import { ITask } from '@/types/task'
+import { ITask } from '@/store/modules/task/types'
 
 interface TaskItemProps {
   task: ITask
