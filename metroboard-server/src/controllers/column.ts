@@ -47,24 +47,6 @@ export const getAllColumn = async (req: Request, res: Response) => {
   }
 }
 
-export const getColumnTasks = async (req: Request<IParamsId>, res: Response) => {
-  try {
-    const { id } = req.params
-
-    const taskData = getTaskData()
-    if (!taskData) {
-      return res.status(400).json({ message: 'task data not found' })
-    }
-
-    const tasks = taskData.filter((task) => task.columnId === id)
-
-    res.json(tasks)
-  } catch (error) {
-    console.log('get column tasks error', error)
-    res.status(400).json({ message: 'error' })
-  }
-}
-
 export const updateColumn = async (
   req: Request<IParamsId, never, IColumnBodyReq>,
   res: Response
