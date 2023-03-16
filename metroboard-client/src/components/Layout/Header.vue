@@ -1,13 +1,14 @@
 <template>
   <v-app-bar elevation="1">
     <v-toolbar-title>
-      <v-img
-        src="https://www.metro-set.ru/data/common/logo/logo.svg"
-        aspect-ratio="1/1"
-        width="100"
-        height="40"
-        to="/"
-      ></v-img>
+      <router-link to="/">
+        <v-img
+          src="https://www.metro-set.ru/data/common/logo/logo.svg"
+          aspect-ratio="1/1"
+          width="100"
+          height="40"
+        ></v-img>
+      </router-link>
     </v-toolbar-title>
     <v-row>
       <h2 class="text-h5">
