@@ -21,11 +21,13 @@
           label="Column title"
           variant="outlined"
           v-model="title"
+          :error-messages="titleErrorMessage"
         ></v-text-field>
         <v-btn
           block
           class="mb-5"
           @click="createColumn"
+          :loading="isLoading"
         >
           Add
         </v-btn>
@@ -67,10 +69,22 @@ const { columns, tasks } = defineProps<ColumnListProps>()
 const store = useStore(key)
 
 const isCreating = ref(false)
-const title = ref('')
+const isLoading = ref(false)
 
-const createColumn = () => {
-  store.dispatch('createColumn', { title: title.value })
+const title = ref('')
+const titleErrorMessage = ref('')
+
+const createColumn = async () => {
+  isLoading.value = true
+
+  if (title.value === '') {
+    titleErrorMessage.value = 'Not correct column title'
+    return
+  }
+
+  await store.dispatch('createColumn', { title: title.value })
+
+  isLoading.value = false
   isCreating.value = false
   title.value = ''
 }

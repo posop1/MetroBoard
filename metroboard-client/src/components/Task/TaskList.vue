@@ -21,10 +21,11 @@
           label="Task title"
           variant="outlined"
           v-model="title"
+          :errorMessages="titleErrorMessage"
         ></v-text-field>
         <v-btn
           block
-          class="mb-5"
+          class="mb-5 mt-2"
           color="white"
           @click="createTask"
         >
@@ -62,10 +63,20 @@ interface TaskListProps {
 const { tasks, columnId } = defineProps<TaskListProps>()
 const store = useStore(key)
 
+const isLoading = ref(false)
 const isCreating = ref(false)
-const title = ref('')
 
-const createTask = () => {
+const title = ref('')
+const titleErrorMessage = ref('')
+
+const createTask = async () => {
+  isLoading.value = true
+
+  if (title.value === '') {
+    titleErrorMessage.value = 'Not correct task title'
+    return
+  }
+
   const newTask = {
     title: title.value,
     description: '',
@@ -73,7 +84,9 @@ const createTask = () => {
     columnId
   }
 
-  store.dispatch('createTask', newTask)
+  await store.dispatch('createTask', newTask)
+
+  isLoading.value = false
   title.value = ''
   isCreating.value = false
 }

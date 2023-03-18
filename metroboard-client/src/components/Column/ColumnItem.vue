@@ -95,14 +95,14 @@ const isUpdateHandler = () => {
   isUpdate.value = !isUpdate.value
 }
 
-const updateColumn = () => {
-  store.dispatch('updateColumn', { id: column._id, title: columnTitle.value })
+const updateColumn = async () => {
+  await store.dispatch('updateColumn', { id: column._id, title: columnTitle.value })
 
   isUpdate.value = false
   column.title = columnTitle.value
 }
-const deleteColumn = () => {
-  store.dispatch('removeColumn', { columnId: column._id })
+const deleteColumn = async () => {
+  await store.dispatch('removeColumn', { columnId: column._id })
 }
 </script>
 
