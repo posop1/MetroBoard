@@ -39,13 +39,7 @@
             >do you have account?</v-btn
           >
         </v-row>
-        <v-alert
-          density="compact"
-          v-if="status"
-          type="error"
-          title="Error"
-          :text="status"
-        ></v-alert>
+        <AuthFormAlert :status="status" />
         <v-btn
           type="submit"
           block
@@ -63,6 +57,7 @@ import { key } from '@/store/store'
 import { ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
+import AuthFormAlert from '../Alert/AuthFormAlert.vue'
 
 const store = useStore(key)
 const router = useRouter()
