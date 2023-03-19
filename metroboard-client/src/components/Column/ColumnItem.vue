@@ -65,17 +65,12 @@
         @click="updateColumn"
       ></v-btn>
     </v-row>
-    <TaskList
-      v-if="tasks"
-      :tasks="tasks"
-      :column-id="column._id"
-    />
+    <TaskList :column-id="column._id" />
   </v-sheet>
 </template>
 
 <script setup lang="ts">
 import { IColumn } from '@/store/modules/column/types'
-import { ITask } from '@/store/modules/task/types'
 import { ref } from 'vue'
 import TaskList from '../Task/TaskList.vue'
 import { useStore } from 'vuex'
@@ -83,9 +78,8 @@ import { key } from '@/store/store'
 
 interface ColumnItemProps {
   column: IColumn
-  tasks: ITask[]
 }
-const { column, tasks } = defineProps<ColumnItemProps>()
+const { column } = defineProps<ColumnItemProps>()
 const store = useStore(key)
 
 const isUpdate = ref(false)

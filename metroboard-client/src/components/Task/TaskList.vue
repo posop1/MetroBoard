@@ -5,11 +5,21 @@
     :autoHide="false"
   >
     <v-list class="d-flex flex-column h-100 w-100 pa-2 align-center">
-      <TaskItem
-        v-for="task in tasks"
-        :key="task._id"
-        :task="task"
-      />
+      <draggable
+        v-model="tasks"
+        group="tasks"
+        item-key="id"
+        :list="tasks"
+        tag="div"
+        drag-class="drag"
+        ghost-class="ghost"
+        class="w-100"
+        @change="updateTasks"
+      >
+        <template #item="{ element: task }">
+          <TaskItem :task="task" />
+        </template>
+      </draggable>
 
       <v-sheet
         v-if="isCreating"
@@ -51,23 +61,32 @@
 <script setup lang="ts">
 import { ITask } from '@/store/modules/task/types'
 import TaskItem from './TaskItem.vue'
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useStore } from 'vuex'
 import { key } from '@/store/store'
+import draggable from 'vuedraggable'
 
 interface TaskListProps {
-  tasks: ITask[]
   columnId: string
 }
 
-const { tasks, columnId } = defineProps<TaskListProps>()
+const { columnId } = defineProps<TaskListProps>()
 const store = useStore(key)
+
+const tasks = ref<ITask[]>()
 
 const isLoading = ref(false)
 const isCreating = ref(false)
 
 const title = ref('')
 const titleErrorMessage = ref('')
+
+const fetchTask = async () => {
+  await store.dispatch('fetchTasks')
+
+  tasks.value = store.getters.getTasks
+  tasks.value = tasks.value?.filter((task) => task.columnId === columnId)
+}
 
 const createTask = async () => {
   isLoading.value = true
@@ -85,11 +104,31 @@ const createTask = async () => {
   }
 
   await store.dispatch('createTask', newTask)
+  fetchTask()
 
   isLoading.value = false
   title.value = ''
   isCreating.value = false
 }
+const updateTasks = (e: any) => {
+  const task = e.added || e.moved
+
+  if (!task) return
+
+  const updatedTask = {
+    taskId: task.element._id,
+    title: task.element.title,
+    columnId,
+    description: task.element.description,
+    author: store.getters.getUser.username
+  }
+
+  store.dispatch('updateTask', updatedTask)
+}
+
+onMounted(() => {
+  fetchTask()
+})
 </script>
 
 <style>

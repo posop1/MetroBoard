@@ -25,3 +25,28 @@ export const createTask = async (
     commit('createTask', { task: {}, status: error?.response?.data.message })
   }
 }
+
+export const removeTask = async ({ commit }: IActionsParams, params: { taskId: string }) => {
+  try {
+    const { data } = await api.delete(`/task/${params.taskId}`)
+
+    commit('removeTask', { taskId: params.taskId, status: data })
+  } catch (error: any) {
+    console.log(error)
+    commit('removeTask', { task: {}, status: error?.response?.data.message })
+  }
+}
+
+export const updateTask = async (
+  { commit }: IActionsParams,
+  params: { title: string; description: string; author: string; columnId: string; taskId: string }
+) => {
+  try {
+    const { data } = await api.put(`/task/${params.taskId}`, params)
+
+    commit('updateTask', { task: data, status: 'success' })
+  } catch (error: any) {
+    console.log(error)
+    commit('removeTask', { task: {}, status: error?.response?.data.message })
+  }
+}
