@@ -38,9 +38,9 @@
       </v-sheet>
       <v-sheet
         min-width="300"
-        min-height="800"
+        min-height="230"
         elevation="2"
-        class="ma-5 d-flex flex-column align-center justify-center"
+        class="ma-5 d-flex flex-column align-center justify-center h-100"
       >
         <v-btn
           icon="mdi-plus"
