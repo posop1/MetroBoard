@@ -43,10 +43,17 @@
         class="ma-5 d-flex flex-column align-center justify-center h-100"
       >
         <v-btn
-          icon="mdi-plus"
+          icon
           class="bg-red-darken-1"
           @click="() => (isCreating = true)"
-        ></v-btn>
+        >
+          <v-icon>mdi-plus</v-icon>
+          <v-tooltip
+            activator="parent"
+            location="bottom"
+            >Create new Column</v-tooltip
+          >
+        </v-btn>
       </v-sheet>
     </v-list>
   </CustomScrollbar>

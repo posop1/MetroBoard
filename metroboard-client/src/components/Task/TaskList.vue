@@ -50,10 +50,17 @@
       </v-sheet>
       <v-btn
         v-else
-        icon="mdi-plus"
+        icon
         class="mt-5 bg-red-darken-1"
         @click="() => (isCreating = true)"
-      ></v-btn>
+      >
+        <v-icon>mdi-plus</v-icon>
+        <v-tooltip
+          activator="parent"
+          location="bottom"
+          >Create new Task</v-tooltip
+        >
+      </v-btn>
     </v-list>
   </CustomScrollbar>
 </template>
