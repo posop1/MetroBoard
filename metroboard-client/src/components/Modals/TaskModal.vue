@@ -140,7 +140,7 @@ const updateTask = async () => {
 
   isUpdate.value = false
   fetchTask()
-  isLoading.value = true
+  isLoading.value = false
 }
 
 watch(
