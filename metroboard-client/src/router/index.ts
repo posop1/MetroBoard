@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import { store } from '@/store/store'
 import Home from '../views/Home.vue'
-import TaskModalVue from '@/views/Task.vue'
+import Task from '@/views/Task.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -12,7 +12,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: '/task/:id',
         name: 'task modal',
-        component: TaskModalVue
+        component: Task
       }
     ],
     meta: {
