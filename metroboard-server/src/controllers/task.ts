@@ -1,14 +1,14 @@
 import { Request, Response } from 'express'
 import { ITaskBodyReq, IParamsId } from '../types/reqTypes'
-import { getTaskData } from '../utils/getDataFile'
 import { uid } from 'uid'
 import { ITask } from '../types/task'
-import { writeTaskData } from '../utils/writeDataFile'
+import { getData } from '../utils/getDataFile'
+import { writeData } from '../utils/writeDataFile'
 
 export const createTask = async (req: Request<never, never, ITaskBodyReq>, res: Response) => {
   try {
     const { title, author, columnId, description, deadline } = req.body
-    const taskData = getTaskData()
+    const taskData = getData.task()
 
     if (!taskData) {
       return res.status(400).json({ message: 'task data not found' })
@@ -28,7 +28,7 @@ export const createTask = async (req: Request<never, never, ITaskBodyReq>, res: 
 
       taskData.push(newTaskWithDeadline)
 
-      writeTaskData(taskData)
+      writeData.task(taskData)
 
       return res.json(newTaskWithDeadline)
     }
@@ -45,7 +45,7 @@ export const createTask = async (req: Request<never, never, ITaskBodyReq>, res: 
 
     taskData.push(newTask)
 
-    writeTaskData(taskData)
+    writeData.task(taskData)
 
     res.json(newTask)
   } catch (error) {
@@ -56,7 +56,7 @@ export const createTask = async (req: Request<never, never, ITaskBodyReq>, res: 
 
 export const getAllTask = async (req: Request, res: Response) => {
   try {
-    const taskData = getTaskData()
+    const taskData = getData.task()
 
     if (!taskData) {
       return res.status(400).json({ message: 'task data not found' })
@@ -73,7 +73,7 @@ export const getTaskById = async (req: Request<IParamsId>, res: Response) => {
   try {
     const { id } = req.params
 
-    const taskData = getTaskData()
+    const taskData = getData.task()
     if (!taskData) {
       return res.status(400).json({ message: 'task data not found' })
     }
@@ -95,7 +95,7 @@ export const updateTask = async (req: Request<IParamsId, never, ITaskBodyReq>, r
     const { id } = req.params
     const { author, columnId, description, title, deadline } = req.body
 
-    const taskData = getTaskData()
+    const taskData = getData.task()
     if (!taskData) {
       return res.status(400).json({ message: 'task data not found' })
     }
@@ -113,7 +113,7 @@ export const updateTask = async (req: Request<IParamsId, never, ITaskBodyReq>, r
       task.title = title
       task.updatedAt = new Date()
 
-      writeTaskData(taskData)
+      writeData.task(taskData)
 
       return res.json(task)
     }
@@ -124,7 +124,7 @@ export const updateTask = async (req: Request<IParamsId, never, ITaskBodyReq>, r
     task.title = title
     task.updatedAt = new Date()
 
-    writeTaskData(taskData)
+    writeData.task(taskData)
 
     res.json(task)
   } catch (error) {
@@ -133,11 +133,11 @@ export const updateTask = async (req: Request<IParamsId, never, ITaskBodyReq>, r
   }
 }
 
-export const deleteTask = async (req: Request<IParamsId>, res: Response) => {
+export const removeTask = async (req: Request<IParamsId>, res: Response) => {
   try {
     const { id } = req.params
 
-    const taskData = getTaskData()
+    const taskData = getData.task()
     if (!taskData) {
       return res.status(400).json({ message: 'task data not found' })
     }
@@ -149,7 +149,7 @@ export const deleteTask = async (req: Request<IParamsId>, res: Response) => {
 
     taskData.splice(taskId, 1)
 
-    writeTaskData(taskData)
+    writeData.task(taskData)
 
     res.json({ message: 'delete success' })
   } catch (error) {

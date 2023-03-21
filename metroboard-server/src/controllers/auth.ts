@@ -4,14 +4,14 @@ import { uid } from 'uid'
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import { IUser } from '../types/auth'
-import { getUserData } from '../utils/getDataFile'
-import { writeUserData } from '../utils/writeDataFile'
+import { getData } from '../utils/getDataFile'
+import { writeData } from '../utils/writeDataFile'
 
 export const register = async (req: Request<never, never, ILoginReq>, res: Response) => {
   try {
     const { username, password } = req.body
 
-    const userData = getUserData()
+    const userData = getData.user()
     if (!userData) {
       return res.status(400).json({ message: 'user data not found' })
     }
@@ -42,7 +42,7 @@ export const register = async (req: Request<never, never, ILoginReq>, res: Respo
 
     userData.push(newUser)
 
-    writeUserData(userData)
+    writeData.user(userData)
 
     res.json({
       newUser,
@@ -58,7 +58,7 @@ export const login = async (req: Request<never, never, ILoginReq>, res: Response
   try {
     const { password, username } = req.body
 
-    const userData = getUserData()
+    const userData = getData.user()
     if (!userData) {
       return res.status(400).json({ message: 'user data not found' })
     }
@@ -93,7 +93,7 @@ export const login = async (req: Request<never, never, ILoginReq>, res: Response
 
 export const getMe = async (req: Request, res: Response) => {
   try {
-    const userData = getUserData()
+    const userData = getData.user()
     if (!userData) {
       return res.status(400).json({ message: 'user data not found' })
     }

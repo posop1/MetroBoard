@@ -1,14 +1,14 @@
 import { Request, Response } from 'express'
 import { IParamsId, IColumnBodyReq } from '../types/reqTypes'
-import { getColumnData, getTaskData } from '../utils/getDataFile'
 import { IColumn } from '../types/column'
 import { uid } from 'uid'
-import { writeColumnData } from '../utils/writeDataFile'
+import { getData } from '../utils/getDataFile'
+import { writeData } from '../utils/writeDataFile'
 
 export const createColumn = async (req: Request<never, never, IColumnBodyReq>, res: Response) => {
   try {
     const { title } = req.body
-    const columnData = getColumnData()
+    const columnData = getData.column()
 
     if (!columnData) {
       return res.status(400).json({ message: 'column data not found' })
@@ -23,7 +23,7 @@ export const createColumn = async (req: Request<never, never, IColumnBodyReq>, r
 
     columnData.push(newColumn)
 
-    writeColumnData(columnData)
+    writeData.column(columnData)
 
     res.json(newColumn)
   } catch (error) {
@@ -34,7 +34,7 @@ export const createColumn = async (req: Request<never, never, IColumnBodyReq>, r
 
 export const getAllColumn = async (req: Request, res: Response) => {
   try {
-    const columnData = getColumnData()
+    const columnData = getData.column()
 
     if (!columnData) {
       return res.status(400).json({ message: 'column data not found' })
@@ -55,7 +55,7 @@ export const updateColumn = async (
     const { id } = req.params
     const { title } = req.body
 
-    const columnData = getColumnData()
+    const columnData = getData.column()
 
     if (!columnData) {
       return res.status(400).json({ message: 'column data not found' })
@@ -69,7 +69,7 @@ export const updateColumn = async (
     column.title = title
     column.updatedAt = new Date()
 
-    writeColumnData(columnData)
+    writeData.column(columnData)
 
     res.json(column)
   } catch (error) {
@@ -81,7 +81,7 @@ export const updateColumn = async (
 export const deleteColumn = async (req: Request<IParamsId>, res: Response) => {
   try {
     const { id } = req.params
-    const columnData = getColumnData()
+    const columnData = getData.column()
 
     if (!columnData) {
       return res.status(400).json({ message: 'column data not found' })
@@ -94,7 +94,7 @@ export const deleteColumn = async (req: Request<IParamsId>, res: Response) => {
 
     columnData.splice(columnId, 1)
 
-    writeColumnData(columnData)
+    writeData.column(columnData)
 
     res.json({ message: 'delete success' })
   } catch (error) {

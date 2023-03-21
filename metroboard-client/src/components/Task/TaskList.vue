@@ -117,6 +117,7 @@ const createTask = async () => {
   title.value = ''
   isCreating.value = false
 }
+
 const updateTasks = (e: any) => {
   const task = e.added || e.moved
 
@@ -131,6 +132,7 @@ const updateTasks = (e: any) => {
   }
 
   store.dispatch('updateTask', updatedTask)
+  console.log(e)
 }
 
 onMounted(() => {

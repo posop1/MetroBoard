@@ -4,23 +4,44 @@ import { IColumn } from '../types/column'
 import { ITask } from '../types/task'
 import { IUser } from '../types/auth'
 
-export const getColumnData = () => {
-  const data = fs.readFileSync(path.join(__dirname, '../../data/columnData.json'), 'utf8')
-  const column: IColumn[] = JSON.parse(data)
+// export const getColumnData = () => {
+//   const data = fs.readFileSync(path.join(__dirname, '../../data/columnData.json'), 'utf8')
+//   const column: IColumn[] = JSON.parse(data)
 
-  return column
-}
+//   return column
+// }
 
-export const getTaskData = () => {
-  const data = fs.readFileSync(path.join(__dirname, '../../data/taskData.json'), 'utf8')
-  const task: ITask[] = JSON.parse(data)
+// export const getTaskData = () => {
+//   const data = fs.readFileSync(path.join(__dirname, '../../data/taskData.json'), 'utf8')
+//   const task: ITask[] = JSON.parse(data)
 
-  return task
-}
+//   return task
+// }
 
-export const getUserData = () => {
-  const data = fs.readFileSync(path.join(__dirname, '../../data/userData.json'), 'utf8')
-  const user: IUser[] = JSON.parse(data)
+// export const getUserData = () => {
+//   const data = fs.readFileSync(path.join(__dirname, '../../data/userData.json'), 'utf8')
+//   const user: IUser[] = JSON.parse(data)
 
-  return user
+//   return user
+// }
+
+export const getData = {
+  column() {
+    const data = fs.readFileSync(path.join(__dirname, '../../data/columnData.json'), 'utf8')
+    const column: IColumn[] = JSON.parse(data)
+
+    return column
+  },
+  task() {
+    const data = fs.readFileSync(path.join(__dirname, '../../data/taskData.json'), 'utf8')
+    const task: ITask[] = JSON.parse(data)
+
+    return task
+  },
+  user() {
+    const data = fs.readFileSync(path.join(__dirname, '../../data/userData.json'), 'utf8')
+    const user: IUser[] = JSON.parse(data)
+
+    return user
+  }
 }
