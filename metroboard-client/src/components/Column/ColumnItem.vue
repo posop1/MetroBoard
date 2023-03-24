@@ -96,7 +96,7 @@ const updateColumn = async () => {
   column.title = columnTitle.value
 }
 const deleteColumn = async () => {
-  await store.dispatch('removeColumn', { columnId: column._id })
+  await store.dispatch('removeColumn', { id: column._id })
 }
 </script>
 

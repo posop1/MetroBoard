@@ -1,6 +1,6 @@
 import { RequestHandler } from 'express'
 import jwt from 'jsonwebtoken'
-import { JwtPayload } from '../types/auth'
+import { JwtPayload } from '../types/common'
 
 export const checkAuth: RequestHandler = (req, res, next) => {
   const token = (req.headers.authorization || '').replace(/Bearer\s?/, '')
@@ -17,12 +17,12 @@ export const checkAuth: RequestHandler = (req, res, next) => {
       next()
     } catch (error) {
       return res.status(400).json({
-        message: 'no access.'
+        message: 'No access'
       })
     }
   } else {
     return res.status(400).json({
-      message: 'no access.'
+      message: 'No access'
     })
   }
 }

@@ -93,7 +93,7 @@
 import api from '@/api/instance'
 import { ITask } from '@/store/modules/task/types'
 import { key } from '@/store/store'
-import { onMounted, ref, watch } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 
@@ -108,7 +108,10 @@ const isUpdate = ref(false)
 const isLoading = ref(false)
 
 // const title = ref(task.value?.title)
-const description = ref(task.value?.description)
+const description = ref()
+// const description = computed(() => {
+//   return task.value?.description;
+// })
 
 const fetchTask = async () => {
   try {
@@ -117,6 +120,7 @@ const fetchTask = async () => {
     const { data } = await api.get(`/task/${route.params.id}`)
 
     task.value = data
+    description.value = task.value?.description
     isLoading.value = false
   } catch (error) {
     console.log(error)

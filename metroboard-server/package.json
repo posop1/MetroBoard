@@ -2,10 +2,10 @@
   "name": "metroboard-server",
   "version": "1.0.0",
   "description": "",
-  "main": "src/index.ts",
+  "main": "app/main.ts",
   "scripts": {
     "start": "node dist/index.js",
-    "dev": "nodemon src/index.ts",
+    "dev": "nodemon index.ts",
     "build": "tsc",
     "format": "prettier --write --ignore-unknown **"
   },
@@ -18,6 +18,7 @@
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.0",
+    "mongoose": "^7.0.2",
     "uid": "^2.0.1"
   },
   "devDependencies": {

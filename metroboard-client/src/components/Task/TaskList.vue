@@ -6,7 +6,6 @@
   >
     <v-list class="d-flex flex-column h-100 w-100 pa-2 align-center">
       <draggable
-        v-model="tasks"
         group="tasks"
         item-key="id"
         :list="tasks"
@@ -132,7 +131,6 @@ const updateTasks = (e: any) => {
   }
 
   store.dispatch('updateTask', updatedTask)
-  console.log(e)
 }
 
 onMounted(() => {

@@ -23,11 +23,11 @@ export const createColumn = async ({ commit }: IActionsParams, params: { title: 
   }
 }
 
-export const removeColumn = async ({ commit }: IActionsParams, id: string) => {
+export const removeColumn = async ({ commit }: IActionsParams, params: { id: string }) => {
   try {
-    const { data } = await api.delete(`/column/${id}`)
+    const { data } = await api.delete(`/column/${params.id}`)
 
-    commit('removeColumn', { columnId: id, status: data })
+    commit('removeColumn', { columnId: params.id, status: data })
   } catch (error: any) {
     console.log(error)
     commit('removeColumn', { column: {}, status: error?.response?.data.message })
