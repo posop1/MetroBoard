@@ -4,7 +4,6 @@ export interface IUser {
   _id: string
   username: string
   password: string
-  favoriteBooks: string[]
   createdAt: Date
   updatedAt: Date
   __v: number
@@ -17,12 +16,10 @@ export interface AuthState {
 }
 
 export interface IRegisterFetch {
-  message: string
   newUser: IUser
   token: string
 }
 export interface ILoginFetch {
-  message: string
   user: IUser
   token: string
 }

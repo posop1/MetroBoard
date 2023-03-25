@@ -2,10 +2,7 @@ import express from 'express'
 import dotenv from 'dotenv'
 import cors from 'cors'
 import mongoose from 'mongoose'
-import { authRouter } from './app/auth'
-import { userRouter } from './app/user'
-import { columnRoute } from './app/column'
-import { taskRoute } from './app/task'
+import { authRouter, userRouter, columnRouter, taskRouter, commentRouter } from './app'
 
 const app = express()
 
@@ -22,8 +19,9 @@ app.use(express.json())
 //routes
 app.use('/api/auth', authRouter)
 app.use('/api/user', userRouter)
-app.use('/api/column', columnRoute)
-app.use('/api/task', taskRoute)
+app.use('/api/column', columnRouter)
+app.use('/api/task', taskRouter)
+app.use('/api/comment', commentRouter)
 
 const connectDataBase = async () => {
   try {

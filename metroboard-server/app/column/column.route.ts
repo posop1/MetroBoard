@@ -9,4 +9,4 @@ router.get('/', checkAuth, getColumns)
 router.delete('/:id', checkAuth, removeColumn)
 router.put('/:id', checkAuth, updateColumn)
 
-export const columnRoute = router
+export const columnRouter = router

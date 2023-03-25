@@ -1,1 +1,2 @@
-export { taskRoute } from './task.route'
+export { taskRouter } from './task.route'
+export { Task } from './task.model'

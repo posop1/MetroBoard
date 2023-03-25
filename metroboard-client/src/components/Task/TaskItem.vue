@@ -14,7 +14,7 @@
             v-bind="props"
           >
             <span class="font-weight-medium text-h6">{{ task.title }}</span>
-            <span class="text-subtitle-2">{{ task.author }}</span>
+            <span class="text-subtitle-2">{{ username }}</span>
           </v-sheet>
         </router-link>
       </v-hover>
@@ -23,13 +23,32 @@
 </template>
 
 <script setup lang="ts">
+import api from '@/api/instance'
+import { IUser } from '@/store/modules/auth/types'
 import { ITask } from '@/store/modules/task/types'
+import { onMounted, ref } from 'vue'
 
 interface TaskItemProps {
   task: ITask
 }
 
 const { task } = defineProps<TaskItemProps>()
+
+const username = ref()
+
+const fetchUser = async () => {
+  try {
+    const { data } = await api.get<IUser>(`/user/${task.author}`)
+
+    username.value = data.username
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+onMounted(() => {
+  fetchUser()
+})
 </script>
 
 <style scoped>

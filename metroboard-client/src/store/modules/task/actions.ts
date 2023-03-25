@@ -39,7 +39,7 @@ export const removeTask = async ({ commit }: IActionsParams, params: { taskId: s
 
 export const updateTask = async (
   { commit }: IActionsParams,
-  params: { title: string; description: string; author: string; columnId: string; taskId: string }
+  params: { title: string; description: string; columnId: string; taskId: string }
 ) => {
   try {
     const { data } = await api.put(`/task/${params.taskId}`, params)

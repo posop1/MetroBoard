@@ -13,7 +13,7 @@ export const registerUser = async (
       password
     })
 
-    commit('setUser', { user: data.newUser, token: data.token, status: data.message })
+    commit('setUser', { user: data.newUser, token: data.token, status: 'success' })
     if (data.token) {
       setCookie('token', data.token)
     }
@@ -36,7 +36,7 @@ export const loginUser = async (
     console.log(data)
 
     if (data.token) {
-      commit('setUser', { user: data.user, token: data.token, status: data.message })
+      commit('setUser', { user: data.user, token: data.token, status: 'success' })
       setCookie('token', data.token)
     }
   } catch (error: any) {
@@ -46,9 +46,9 @@ export const loginUser = async (
 }
 
 export const getMe = async ({ commit }: IActionsParams) => {
-  const { data } = await api.get('/auth/me')
+  const { data } = await api.get('/user/me')
 
-  commit('setUser', { user: data.user, token: data.token, status: data.message })
+  commit('setUser', { user: data.user, token: data.token, status: 'success' })
 }
 
 export const logout = ({ commit }: IActionsParams) => {

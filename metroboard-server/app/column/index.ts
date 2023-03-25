@@ -1,2 +1,2 @@
-export { columnRoute } from './column.route'
+export { columnRouter } from './column.route'
 export { Column } from './column.model'

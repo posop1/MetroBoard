@@ -19,17 +19,9 @@
       v-else
     >
       <v-sheet class="w-100">
-        <!-- <v-text-field
-          bg-color="grey-lighten-3"
-          v-model="title"
-          label="Title"
-          variant="solo"
-          v-if="isUpdate"
-          class="w-75"
-        /> -->
         <h2>{{ task?.title }}</h2>
         <br />
-        <span>Author: {{ task?.author }}</span>
+        <span>Author: {{ username }}</span>
         <br />
         <span>Created Date: {{ task?.createdAt.toString().slice(0, 10) }}</span>
         <br />
@@ -91,9 +83,10 @@
 
 <script setup lang="ts">
 import api from '@/api/instance'
+import { IUser } from '@/store/modules/auth/types'
 import { ITask } from '@/store/modules/task/types'
 import { key } from '@/store/store'
-import { computed, onMounted, ref, watch } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 
@@ -107,29 +100,29 @@ const isOpenDialog = ref(true)
 const isUpdate = ref(false)
 const isLoading = ref(false)
 
-// const title = ref(task.value?.title)
-const description = ref()
-// const description = computed(() => {
-//   return task.value?.description;
-// })
+const description = ref<string>()
+const username = ref<string>()
 
 const fetchTask = async () => {
-  try {
-    isLoading.value = true
+  isLoading.value = true
 
-    const { data } = await api.get(`/task/${route.params.id}`)
+  const taskData = await api.get(`/task/${route.params.id}`)
 
-    task.value = data
-    description.value = task.value?.description
-    isLoading.value = false
-  } catch (error) {
-    console.log(error)
-  }
+  task.value = taskData.data
+  description.value = task.value?.description
+
+  const userData = await api.get<IUser>(`/user/${task.value?.author}`)
+
+  username.value = userData.data.username
+
+  isLoading.value = false
 }
+
 const removeTask = async () => {
   await store.dispatch('removeTask', { taskId: task.value?._id })
   isOpenDialog.value = false
 }
+
 const updateTask = async () => {
   isLoading.value = true
 

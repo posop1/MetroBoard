@@ -105,7 +105,6 @@ const createTask = async () => {
   const newTask = {
     title: title.value,
     description: '',
-    author: store.getters.getUser.username,
     columnId
   }
 
@@ -126,8 +125,7 @@ const updateTasks = (e: any) => {
     taskId: task.element._id,
     title: task.element.title,
     columnId,
-    description: task.element.description,
-    author: store.getters.getUser.username
+    description: task.element.description
   }
 
   store.dispatch('updateTask', updatedTask)

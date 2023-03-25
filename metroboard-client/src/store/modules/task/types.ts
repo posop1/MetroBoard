@@ -3,6 +3,15 @@ import { Commit } from 'vuex'
 export interface IActionsParams {
   commit: Commit
 }
+
+export interface IComment {
+  _id: string
+  text: string
+  taskId: string
+  author: string
+  createdAt: Date
+  updatedAt: Date
+}
 export interface ITask {
   _id: string
   title: string
@@ -10,6 +19,7 @@ export interface ITask {
   author: string
   deadline?: Date
   columnId: string
+  comments: string[]
   createdAt: Date
   updatedAt: Date
 }
