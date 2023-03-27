@@ -116,13 +116,13 @@ const createTask = async () => {
   isCreating.value = false
 }
 
-const updateTasks = (e: any) => {
+const updateTasks = async (e: any) => {
   const task = e.added || e.moved
 
   if (!task) return
   console.log(e)
 
-  store.dispatch('updateTask', { taskId: task.element._id, columnId })
+  await store.dispatch('updateTask', { taskId: task.element._id, columnId })
 }
 
 onMounted(() => {
