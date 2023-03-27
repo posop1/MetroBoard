@@ -42,9 +42,19 @@ export const updateTask = async (
   params: { title: string; description: string; columnId: string; taskId: string }
 ) => {
   try {
-    const { data } = await api.put(`/task/${params.taskId}`, params)
-
-    commit('updateTask', { task: data, status: 'success' })
+    if (params.title && params.description) {
+      const { data } = await api.put(`/task/${params.taskId}`, {
+        title: params.title,
+        description: params.description,
+        columnId: params.columnId
+      })
+      commit('updateTask', { task: data, status: 'success' })
+    } else {
+      const { data } = await api.put(`/task/${params.taskId}`, {
+        columnId: params.columnId
+      })
+      commit('updateTask', { task: data, status: 'success' })
+    }
   } catch (error: any) {
     console.log(error)
     commit('removeTask', { task: {}, status: error?.response?.data.message })

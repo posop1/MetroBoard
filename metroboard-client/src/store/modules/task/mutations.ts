@@ -22,5 +22,11 @@ export const removeTask = (
 
 export const updateTask = (state: ITaskState, payload: { task: ITask; status: string }) => {
   const index = state.tasks.findIndex((column) => column._id === payload.task._id)
-  state.tasks[index] = payload.task
+  const task = state.tasks[index]
+
+  task.columnId = payload.task.columnId
+  task.description = payload.task.description
+  task.title = payload.task.title
+
+  console.log(task)
 }

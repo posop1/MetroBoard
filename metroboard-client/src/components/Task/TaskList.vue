@@ -120,6 +120,7 @@ const updateTasks = (e: any) => {
   const task = e.added || e.moved
 
   if (!task) return
+  console.log(e)
 
   const updatedTask = {
     taskId: task.element._id,
@@ -128,7 +129,7 @@ const updateTasks = (e: any) => {
     description: task.element.description
   }
 
-  store.dispatch('updateTask', updatedTask)
+  store.dispatch('updateTask', { taskId: task.element._id, columnId })
 }
 
 onMounted(() => {

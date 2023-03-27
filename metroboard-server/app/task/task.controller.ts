@@ -66,8 +66,11 @@ export const updateTask = async (req: Request, res: Response) => {
       return res.status(404).json({ message: 'task not found' })
     }
 
-    task.title = title
-    task.description = description
+    if (title && description) {
+      task.title = title
+      task.description = description
+    }
+
     task.columnId = columnId
 
     task.save()
