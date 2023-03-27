@@ -122,13 +122,6 @@ const updateTasks = (e: any) => {
   if (!task) return
   console.log(e)
 
-  const updatedTask = {
-    taskId: task.element._id,
-    title: task.element.title,
-    columnId,
-    description: task.element.description
-  }
-
   store.dispatch('updateTask', { taskId: task.element._id, columnId })
 }
 
