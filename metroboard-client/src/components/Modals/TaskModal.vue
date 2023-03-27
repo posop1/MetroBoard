@@ -1,7 +1,7 @@
 <template>
   <v-dialog v-model="isOpenDialog">
     <v-sheet
-      v-if="isLoading"
+      v-if="isLoading || !task"
       class="mx-auto w-100 d-flex flex-row justify-center align-center"
       max-width="1000"
       min-height="400"
@@ -19,25 +19,42 @@
       v-else
     >
       <v-sheet class="w-100">
-        <h2>{{ task?.title }}</h2>
+        <v-text-field
+          v-if="isUpdate"
+          class="w-75"
+          variant="solo"
+          label="Title"
+          clearable
+          bg-color="grey-lighten-3"
+          density="compact"
+          v-model="title"
+        ></v-text-field>
+
+        <h2 v-else>{{ task?.title }}</h2>
         <br />
-        <span>Author: {{ username }}</span>
+
+        <span>Author: {{ authorUsername }}</span>
         <br />
+
         <span>Created Date: {{ task?.createdAt.toString().slice(0, 10) }}</span>
         <br />
+
         <span v-if="task?.updatedAt !== task?.createdAt"
           >Updated Date: {{ task?.updatedAt.toString().slice(0, 10) }}</span
         >
         <span v-if="task?.deadline">Deadline: {{ task?.deadline }}</span>
+
         <v-textarea
           class="w-75 mt-5"
           bg-color="grey-lighten-3"
           clearable
           label="Description"
           variant="solo"
+          auto-grow
           v-if="isUpdate"
           v-model="description"
         ></v-textarea>
+
         <v-sheet
           v-else
           min-height="200"
@@ -45,6 +62,8 @@
         >
           <p>{{ task?.description }}</p>
         </v-sheet>
+
+        <CommentList :taskId="task?._id" />
       </v-sheet>
       <v-sheet class="d-flex flex-column align-center">
         <v-btn
@@ -54,28 +73,36 @@
           @click="() => (isOpenDialog = false)"
         >
         </v-btn>
-        <v-btn
-          v-if="isUpdate"
-          size="small"
-          class="mb-3 bg-red-darken-1 w-100"
-          @click="updateTask"
-        >
-          Complete Edit
-        </v-btn>
-        <v-btn
-          v-else
-          size="small"
-          class="mb-3 bg-red-darken-1 w-100"
-          @click="() => (isUpdate = true)"
-        >
-          Edit
-        </v-btn>
-        <v-btn
-          size="small"
-          class="bg-red-darken-1 w-100"
-          @click="removeTask"
-          >Delete</v-btn
-        >
+
+        <div v-if="store.getters.getUser.username === authorUsername">
+          <v-btn
+            v-if="isUpdate"
+            size="small"
+            block
+            class="mb-3 bg-red-darken-1"
+            @click="updateTask"
+          >
+            Complete Edit
+          </v-btn>
+
+          <v-btn
+            v-else
+            block
+            size="small"
+            class="mb-3 bg-red-darken-1"
+            @click="() => (isUpdate = true)"
+          >
+            Edit
+          </v-btn>
+
+          <v-btn
+            size="small"
+            block
+            class="bg-red-darken-1"
+            @click="removeTask"
+            >Delete</v-btn
+          >
+        </div>
       </v-sheet>
     </v-sheet>
   </v-dialog>
@@ -89,6 +116,7 @@ import { key } from '@/store/store'
 import { onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
+import CommentList from '../Comment/CommentList.vue'
 
 const router = useRouter()
 const route = useRoute()
@@ -96,48 +124,62 @@ const store = useStore(key)
 
 const task = ref<ITask>()
 
-const isOpenDialog = ref(true)
-const isUpdate = ref(false)
-const isLoading = ref(false)
+const isOpenDialog = ref<boolean>(true)
+const isUpdate = ref<boolean>(false)
+const isLoading = ref<boolean>(false)
+const isError = ref<boolean>(false)
 
 const description = ref<string>()
-const username = ref<string>()
+const title = ref<string>()
+const authorUsername = ref<string>()
 
 const fetchTask = async () => {
-  isLoading.value = true
+  try {
+    isLoading.value = true
 
-  const taskData = await api.get(`/task/${route.params.id}`)
+    const taskData = await api.get(`/task/${route.params.id}`)
 
-  task.value = taskData.data
-  description.value = task.value?.description
+    task.value = taskData.data
+    description.value = task.value?.description
+    title.value = task.value?.title
 
-  const userData = await api.get<IUser>(`/user/${task.value?.author}`)
+    const userData = await api.get<IUser>(`/user/${task.value?.author}`)
 
-  username.value = userData.data.username
+    authorUsername.value = userData.data.username
 
-  isLoading.value = false
+    isLoading.value = false
+  } catch (error) {
+    isError.value = true
+  }
 }
 
 const removeTask = async () => {
-  await store.dispatch('removeTask', { taskId: task.value?._id })
-  isOpenDialog.value = false
+  try {
+    await store.dispatch('removeTask', { taskId: task.value?._id })
+    isOpenDialog.value = false
+  } catch (error) {
+    isError.value = true
+  }
 }
 
 const updateTask = async () => {
-  isLoading.value = true
+  try {
+    isLoading.value = true
 
-  const updatedTask = {
-    taskId: task.value?._id,
-    title: task.value?.title,
-    description: description.value,
-    author: store.getters.getUser.username,
-    columnId: task.value?.columnId
+    const updatedTask = {
+      taskId: task.value?._id,
+      title: title.value,
+      description: description.value,
+      columnId: task.value?.columnId
+    }
+    await store.dispatch('updateTask', updatedTask)
+
+    isUpdate.value = false
+    fetchTask()
+    isLoading.value = false
+  } catch (error) {
+    isError.value = true
   }
-  await store.dispatch('updateTask', updatedTask)
-
-  isUpdate.value = false
-  fetchTask()
-  isLoading.value = false
 }
 
 watch(
