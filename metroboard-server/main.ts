@@ -3,6 +3,7 @@ import dotenv from 'dotenv'
 import cors from 'cors'
 import mongoose from 'mongoose'
 import { authRouter, userRouter, columnRouter, taskRouter, commentRouter } from './app'
+import { boardRouter } from './app/board'
 
 const app = express()
 
@@ -22,7 +23,9 @@ app.use('/api/user', userRouter)
 app.use('/api/column', columnRouter)
 app.use('/api/task', taskRouter)
 app.use('/api/comment', commentRouter)
+app.use('/api/board', boardRouter)
 
+//data base connect
 const connectDataBase = async () => {
   try {
     mongoose.set('strictQuery', false)

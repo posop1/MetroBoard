@@ -1,12 +1,18 @@
 import { Request, Response } from 'express'
 import { Column } from './column.model'
+import { Board } from '../board'
 
 export const createColumn = async (req: Request, res: Response) => {
   try {
-    const { title } = req.body
+    const { title, boardId } = req.body
 
     const newColumn = new Column({
-      title
+      title,
+      boardId
+    })
+
+    await Board.findByIdAndUpdate(boardId, {
+      $push: { columns: newColumn._id }
     })
 
     await newColumn.save()
@@ -29,6 +35,15 @@ export const getColumns = async (req: Request, res: Response) => {
     res.json(columns)
   } catch (error) {
     console.log('get all column error', error)
+    res.status(400).json({ message: 'error' })
+  }
+}
+
+export const getColumnsByBoardId = async (req: Request, res: Response) => {
+  try {
+    //TODO сделать
+  } catch (error) {
+    console.log('get board columns error', error)
     res.status(400).json({ message: 'error' })
   }
 }
@@ -64,6 +79,8 @@ export const removeColumn = async (req: Request, res: Response) => {
     if (!column) {
       return res.status(404).json({ message: 'column not found' })
     }
+
+    //TODO удалять еще и в доске
 
     res.json({ message: 'delete success' })
   } catch (error) {
