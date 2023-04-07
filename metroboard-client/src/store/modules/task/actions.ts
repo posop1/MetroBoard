@@ -1,6 +1,8 @@
 import api from '@/api/instance'
-import { IActionsParams, ITask } from './types'
+import { ITask } from './types'
+import { IActionsParams } from '@/types/common'
 
+//TODO: исправить название мутаций и т.д
 export const fetchTasks = async ({ commit }: IActionsParams) => {
   try {
     const { data } = await api.get<ITask[]>('/task')
