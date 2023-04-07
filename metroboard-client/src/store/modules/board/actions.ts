@@ -28,7 +28,7 @@ export const removeBoard = async ({ commit }: IActionsParams, params: { id: stri
   try {
     const { data } = await api.put(`/board/${params.id}`)
 
-    commit('removeBoard', { boardId: params.id, status: 'success' })
+    commit('removeBoard', { boardId: params.id, status: data.message })
   } catch (error: any) {
     console.log(error)
     commit('removeBoard', { boardId: null, status: error?.response.data.message })
