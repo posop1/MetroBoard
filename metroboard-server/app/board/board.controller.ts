@@ -66,7 +66,18 @@ export const getBoardById = async (req: Request, res: Response) => {
 
 export const updateBoard = async (req: Request, res: Response) => {
   try {
-    //TODO: сделать
+    const { id } = req.params
+    const { title } = req.body
+
+    const board = await Board.findById(id)
+    if (!board) {
+      return res.status(404).json({ message: 'board not found' })
+    }
+
+    board.title = title
+    await board.save()
+
+    res.json(board)
   } catch (error) {
     console.log('update error', error)
     res.status(400).json({ message: 'error' })
