@@ -12,6 +12,14 @@ const BoardScheme = new mongoose.Schema({
         ref: 'Column'
       }
     ]
+  },
+  tasks: {
+    type: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Task'
+      }
+    ]
   }
 })
 

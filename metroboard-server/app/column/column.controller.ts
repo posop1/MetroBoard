@@ -39,15 +39,6 @@ export const getColumns = async (req: Request, res: Response) => {
   }
 }
 
-export const getColumnsByBoardId = async (req: Request, res: Response) => {
-  try {
-    //TODO сделать
-  } catch (error) {
-    console.log('get board columns error', error)
-    res.status(400).json({ message: 'error' })
-  }
-}
-
 export const updateColumn = async (req: Request, res: Response) => {
   try {
     const { id } = req.params
@@ -80,7 +71,9 @@ export const removeColumn = async (req: Request, res: Response) => {
       return res.status(404).json({ message: 'column not found' })
     }
 
-    //TODO удалять еще и в доске
+    await Board.findByIdAndUpdate(column.boardId, {
+      $pull: { columns: id }
+    })
 
     res.json({ message: 'delete success' })
   } catch (error) {

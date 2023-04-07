@@ -18,6 +18,11 @@ const TaskSchema = new mongoose.Schema(
       ref: 'Column',
       required: true
     },
+    boardId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Board',
+      required: true
+    },
     comments: [
       {
         type: mongoose.Schema.Types.ObjectId,

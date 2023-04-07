@@ -1,6 +1,8 @@
 import { Request, Response } from 'express'
 import { Board } from './board.model'
 import { User } from '../user'
+import { Column } from '../column'
+import { Task } from '../task'
 
 export const createBoard = async (req: Request, res: Response) => {
   try {
@@ -48,6 +50,14 @@ export const getBoards = async (req: Request, res: Response) => {
 
 export const getBoardById = async (req: Request, res: Response) => {
   try {
+    const { id } = req.params
+
+    const board = await Board.findById(id)
+    if (!board) {
+      return res.status(404).json({ message: 'board not found' })
+    }
+
+    res.json(board)
   } catch (error) {
     console.log('get board by id error', error)
     res.status(400).json({ message: 'error' })
@@ -56,6 +66,7 @@ export const getBoardById = async (req: Request, res: Response) => {
 
 export const updateBoard = async (req: Request, res: Response) => {
   try {
+    //TODO: сделать
   } catch (error) {
     console.log('update error', error)
     res.status(400).json({ message: 'error' })
@@ -79,6 +90,50 @@ export const removeBoard = async (req: Request, res: Response) => {
     res.json({ message: 'remove success' })
   } catch (error) {
     console.log('remove error', error)
+    res.status(400).json({ message: 'error' })
+  }
+}
+
+export const getColumnsByBoardId = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params
+
+    const board = await Board.findById(id)
+    if (!board) {
+      return res.status(404).json({ message: 'board not found' })
+    }
+
+    const list = await Promise.all(
+      board.columns.map((column) => {
+        return Column.findById(column)
+      })
+    )
+
+    res.json(list)
+  } catch (error) {
+    console.log('get board columns error', error)
+    res.status(400).json({ message: 'error' })
+  }
+}
+
+export const getTasksByBoardId = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params
+
+    const board = await Board.findById(id)
+    if (!board) {
+      return res.status(404).json({ message: 'board not found' })
+    }
+
+    const list = await Promise.all(
+      board.tasks.map((task) => {
+        return Task.findById(task)
+      })
+    )
+
+    res.json(list)
+  } catch (error) {
+    console.log('get tasks by board id error', error)
     res.status(400).json({ message: 'error' })
   }
 }
