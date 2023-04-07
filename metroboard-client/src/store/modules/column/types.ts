@@ -1,12 +1,7 @@
-import { Commit } from 'vuex'
-
-export interface IActionsParams {
-  commit: Commit
-}
-
 export interface IColumn {
   _id: string
   title: string
+  boardId: string
   createdAt: Date
   updatedAt: Date
 }
