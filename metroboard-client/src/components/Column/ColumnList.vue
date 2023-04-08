@@ -1,6 +1,6 @@
 <template>
   <CustomScrollbar
-    :style="{ width: '100%', padding: '12px' }"
+    :style="{ width: '100%', padding: '12px', minHeight: '95vh' }"
     direction="horizontal"
   >
     <v-list class="d-flex h-100">
@@ -65,6 +65,7 @@ import ColumnItem from './ColumnItem.vue'
 import { useStore } from 'vuex'
 import { key } from '@/store/store'
 import { ref } from 'vue'
+import { useRoute } from 'vue-router'
 
 interface ColumnListProps {
   columns: IColumn[]
@@ -72,6 +73,7 @@ interface ColumnListProps {
 
 const props = defineProps<ColumnListProps>()
 const store = useStore(key)
+const route = useRoute()
 
 const isCreating = ref(false)
 const isLoading = ref(false)
@@ -87,7 +89,12 @@ const createColumn = async () => {
     return
   }
 
-  await store.dispatch('createColumn', { title: title.value })
+  const newColumn = {
+    title: title.value,
+    boardId: route.params.boardId
+  }
+
+  await store.dispatch('createColumn', newColumn)
 
   isLoading.value = false
   isCreating.value = false
@@ -95,11 +102,4 @@ const createColumn = async () => {
 }
 </script>
 
-<style scoped>
-.scroll-area {
-  position: relative;
-  margin: auto;
-  width: 600px;
-  height: 400px;
-}
-</style>
+<style scoped></style>

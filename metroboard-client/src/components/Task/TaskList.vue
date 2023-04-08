@@ -71,6 +71,7 @@ import { onMounted, ref } from 'vue'
 import { useStore } from 'vuex'
 import { key } from '@/store/store'
 import draggable from 'vuedraggable'
+import { useRoute } from 'vue-router'
 
 interface TaskListProps {
   columnId: string
@@ -78,6 +79,7 @@ interface TaskListProps {
 
 const props = defineProps<TaskListProps>()
 const store = useStore(key)
+const route = useRoute()
 
 const tasks = ref<ITask[]>()
 
@@ -88,7 +90,7 @@ const title = ref('')
 const titleErrorMessage = ref('')
 
 const fetchTask = async () => {
-  await store.dispatch('fetchTasks')
+  await store.dispatch('fetchTasks', { boardId: route.params.boardId })
 
   tasks.value = store.getters.getTasks
   tasks.value = tasks.value?.filter((task) => task.columnId === props.columnId)
@@ -105,7 +107,8 @@ const createTask = async () => {
   const newTask = {
     title: title.value,
     description: '',
-    columnId: props.columnId
+    columnId: props.columnId,
+    boardId: route.params.boardId
   }
 
   await store.dispatch('createTask', newTask)
@@ -120,7 +123,6 @@ const updateTasks = async (e: any) => {
   const task = e.added || e.moved
 
   if (!task) return
-  console.log(e)
 
   await store.dispatch('updateTask', { taskId: task.element._id, columnId: props.columnId })
 }

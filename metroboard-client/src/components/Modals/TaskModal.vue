@@ -66,13 +66,17 @@
         <CommentList :taskId="task?._id" />
       </v-sheet>
       <v-sheet class="d-flex flex-column align-center">
-        <v-btn
-          icon="mdi-close"
-          size="x-small"
-          class="mb-3 bg-red-darken-1"
-          @click="() => (isOpenDialog = false)"
+        <RouterLink
+          :to="`/board/${route.params.boardId}`"
+          class="text-decoration-none"
         >
-        </v-btn>
+          <v-btn
+            icon="mdi-close"
+            size="x-small"
+            class="mb-3 bg-red-darken-1"
+          >
+          </v-btn>
+        </RouterLink>
 
         <div v-if="store.getters.getUser.username === authorUsername">
           <v-btn

@@ -109,6 +109,6 @@ const deleteColumn = async () => {
   outline: none;
 }
 .sheet {
-  max-height: 83vh;
+  min-height: 100vh;
 }
 </style>

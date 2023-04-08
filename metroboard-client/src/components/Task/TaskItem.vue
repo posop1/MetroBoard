@@ -3,7 +3,7 @@
     <div>
       <v-hover v-slot="{ isHovering, props }">
         <router-link
-          :to="`/task/${task._id}`"
+          :to="`${route.params.boardId}/task/${task._id}`"
           class="w-100 text-decoration-none"
         >
           <v-sheet
@@ -27,12 +27,14 @@ import api from '@/api/instance'
 import { IUser } from '@/store/modules/auth/types'
 import { ITask } from '@/store/modules/task/types'
 import { onMounted, ref } from 'vue'
+import { useRoute } from 'vue-router'
 
 interface TaskItemProps {
   task: ITask
 }
 
 const props = defineProps<TaskItemProps>()
+const route = useRoute()
 
 const username = ref()
 

@@ -2,10 +2,9 @@ import api from '@/api/instance'
 import { IColumn } from './types'
 import { IActionsParams } from '@/types/common'
 
-//TODO: исправить название мутаций и т.д
-export const fetchColumns = async ({ commit }: IActionsParams) => {
+export const fetchColumns = async ({ commit }: IActionsParams, params: { boardId: string }) => {
   try {
-    const { data } = await api.get<IColumn[]>('/column')
+    const { data } = await api.get<IColumn[]>(`/board/${params.boardId}/columns`)
 
     commit('setColumns', { columns: data, status: 'success' })
   } catch (error: any) {
@@ -14,7 +13,10 @@ export const fetchColumns = async ({ commit }: IActionsParams) => {
   }
 }
 
-export const createColumn = async ({ commit }: IActionsParams, params: { title: string }) => {
+export const createColumn = async (
+  { commit }: IActionsParams,
+  params: { title: string; boardId: string }
+) => {
   try {
     const { data } = await api.post('/column', params)
 
