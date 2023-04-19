@@ -1,17 +1,6 @@
 <template>
   <v-dialog v-model="isOpenDialog">
-    <v-sheet
-      v-if="isLoading || !task"
-      class="mx-auto w-100 d-flex flex-row justify-center align-center"
-      max-width="1000"
-      min-height="400"
-    >
-      <v-progress-circular
-        indeterminate
-        color="red"
-      ></v-progress-circular>
-    </v-sheet>
-
+    <Loading v-if="isLoading || !task" />
     <v-sheet
       class="mx-auto w-100 h-100 d-flex flex-row justify-space-between pa-8"
       max-width="1000"
@@ -121,6 +110,7 @@ import { onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 import CommentList from '../Comment/CommentList.vue'
+import Loading from '@/components/Loading.vue'
 
 const router = useRouter()
 const route = useRoute()
@@ -188,7 +178,7 @@ const updateTask = async () => {
 
 watch(
   () => isOpenDialog.value,
-  () => router.replace('/')
+  () => router.replace(`/board/${task.value?.boardId}`)
 )
 
 onMounted(() => {

@@ -1,8 +1,10 @@
 <template>
+  <Loading v-if="status === IStatus.LOADING" />
   <CustomScrollbar
     :style="{ height: '70vh', width: '100%' }"
     :autoExpand="false"
     :autoHide="false"
+    v-else
   >
     <v-list class="d-flex flex-column h-100 w-100 pa-2 align-center">
       <draggable
@@ -72,6 +74,8 @@ import { useStore } from 'vuex'
 import { key } from '@/store/store'
 import draggable from 'vuedraggable'
 import { useRoute } from 'vue-router'
+import { IStatus } from '@/types/common'
+import Loading from '../Loading.vue'
 
 interface TaskListProps {
   columnId: string
@@ -83,6 +87,8 @@ const route = useRoute()
 
 const tasks = ref<ITask[]>()
 
+const status = ref<IStatus>()
+
 const isLoading = ref(false)
 const isCreating = ref(false)
 
@@ -90,10 +96,18 @@ const title = ref('')
 const titleErrorMessage = ref('')
 
 const fetchTask = async () => {
-  await store.dispatch('fetchTasks', { boardId: route.params.boardId })
+  try {
+    status.value = IStatus.LOADING
 
-  tasks.value = store.getters.getTasks
-  tasks.value = tasks.value?.filter((task) => task.columnId === props.columnId)
+    await store.dispatch('fetchTasks', { boardId: route.params.boardId })
+
+    tasks.value = store.getters.getTasks
+    tasks.value = tasks.value?.filter((task) => task.columnId === props.columnId)
+
+    status.value = IStatus.COMPLETE
+  } catch (error) {
+    status.value = IStatus.ERROR
+  }
 }
 
 const createTask = async () => {
