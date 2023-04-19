@@ -4,6 +4,7 @@ export interface IUser {
   _id: string
   username: string
   password: string
+  boards: string[]
   createdAt: Date
   updatedAt: Date
   __v: number

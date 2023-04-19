@@ -1,20 +1,22 @@
 import api from '@/api/instance'
-import { IActionsParams, ITask } from './types'
+import { ITask } from './types'
+import { IActionsParams } from '@/types/common'
 
-export const fetchTasks = async ({ commit }: IActionsParams) => {
+//TODO: исправить название мутаций и т.д
+export const fetchTasks = async ({ commit }: IActionsParams, params: { boardId: string }) => {
   try {
-    const { data } = await api.get<ITask[]>('/task')
+    const { data } = await api.get<ITask[]>(`/board/${params.boardId}/tasks`)
 
-    commit('setTask', { tasks: data, status: 'success' })
+    commit('setTasks', { tasks: data, status: 'success' })
   } catch (error: any) {
     console.log(error)
-    commit('setTask', { tasks: {}, status: error?.response?.data.message })
+    commit('setTasks', { tasks: {}, status: error?.response?.data.message })
   }
 }
 
 export const createTask = async (
   { commit }: IActionsParams,
-  params: { title: string; description: string; author: string; columnId: string }
+  params: { title: string; description: string; author: string; columnId: string; boardId: string }
 ) => {
   try {
     const { data } = await api.post<ITask>('/task', params)

@@ -1,18 +1,22 @@
 import api from '@/api/instance'
-import { IActionsParams, IColumn } from './types'
+import { IColumn } from './types'
+import { IActionsParams } from '@/types/common'
 
-export const fetchColumns = async ({ commit }: IActionsParams) => {
+export const fetchColumns = async ({ commit }: IActionsParams, params: { boardId: string }) => {
   try {
-    const { data } = await api.get<IColumn[]>('/column')
+    const { data } = await api.get<IColumn[]>(`/board/${params.boardId}/columns`)
 
-    commit('setColumn', { columns: data, status: 'success' })
+    commit('setColumns', { columns: data, status: 'success' })
   } catch (error: any) {
     console.log(error)
-    commit('setColumn', { columns: {}, status: error?.response?.data.message })
+    commit('setColumns', { columns: {}, status: error?.response?.data.message })
   }
 }
 
-export const createColumn = async ({ commit }: IActionsParams, params: { title: string }) => {
+export const createColumn = async (
+  { commit }: IActionsParams,
+  params: { title: string; boardId: string }
+) => {
   try {
     const { data } = await api.post('/column', params)
 

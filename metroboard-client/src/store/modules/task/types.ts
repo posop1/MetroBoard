@@ -1,9 +1,3 @@
-import { Commit } from 'vuex'
-
-export interface IActionsParams {
-  commit: Commit
-}
-
 export interface ITask {
   _id: string
   title: string
@@ -11,6 +5,7 @@ export interface ITask {
   author: string
   deadline?: Date
   columnId: string
+  boardId: string
   comments: string[]
   createdAt: Date
   updatedAt: Date

@@ -1,6 +1,6 @@
 import { ITask, ITaskState } from './types'
 
-export const setTask = (state: ITaskState, payload: { tasks: ITask[]; status: string }) => {
+export const setTasks = (state: ITaskState, payload: { tasks: ITask[]; status: string }) => {
   state.tasks = payload.tasks
   state.status = payload.status
 }
@@ -27,6 +27,4 @@ export const updateTask = (state: ITaskState, payload: { task: ITask; status: st
   task.columnId = payload.task.columnId
   task.description = payload.task.description
   task.title = payload.task.title
-
-  console.log(task)
 }

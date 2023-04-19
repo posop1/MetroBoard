@@ -1,17 +1,6 @@
 <template>
   <v-dialog v-model="isOpenDialog">
-    <v-sheet
-      v-if="isLoading || !task"
-      class="mx-auto w-100 d-flex flex-row justify-center align-center"
-      max-width="1000"
-      min-height="400"
-    >
-      <v-progress-circular
-        indeterminate
-        color="red"
-      ></v-progress-circular>
-    </v-sheet>
-
+    <Loading v-if="isLoading || !task" />
     <v-sheet
       class="mx-auto w-100 h-100 d-flex flex-row justify-space-between pa-8"
       max-width="1000"
@@ -66,13 +55,17 @@
         <CommentList :taskId="task?._id" />
       </v-sheet>
       <v-sheet class="d-flex flex-column align-center">
-        <v-btn
-          icon="mdi-close"
-          size="x-small"
-          class="mb-3 bg-red-darken-1"
-          @click="() => (isOpenDialog = false)"
+        <RouterLink
+          :to="`/board/${route.params.boardId}`"
+          class="text-decoration-none"
         >
-        </v-btn>
+          <v-btn
+            icon="mdi-close"
+            size="x-small"
+            class="mb-3 bg-red-darken-1"
+          >
+          </v-btn>
+        </RouterLink>
 
         <div v-if="store.getters.getUser.username === authorUsername">
           <v-btn
@@ -117,6 +110,7 @@ import { onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 import CommentList from '../Comment/CommentList.vue'
+import Loading from '@/components/Loading.vue'
 
 const router = useRouter()
 const route = useRoute()
@@ -184,7 +178,7 @@ const updateTask = async () => {
 
 watch(
   () => isOpenDialog.value,
-  () => router.replace('/')
+  () => router.replace(`/board/${task.value?.boardId}`)
 )
 
 onMounted(() => {

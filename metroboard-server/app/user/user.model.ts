@@ -10,7 +10,13 @@ const UserSchema = new mongoose.Schema(
     password: {
       type: String,
       required: true
-    }
+    },
+    boards: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Board'
+      }
+    ]
   },
   { timestamps: true }
 )

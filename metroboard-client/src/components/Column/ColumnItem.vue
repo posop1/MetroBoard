@@ -79,24 +79,25 @@ import { key } from '@/store/store'
 interface ColumnItemProps {
   column: IColumn
 }
-const { column } = defineProps<ColumnItemProps>()
+const props = defineProps<ColumnItemProps>()
 const store = useStore(key)
 
 const isUpdate = ref(false)
-const columnTitle = ref(column.title)
+const column = ref<IColumn>(props.column)
+const columnTitle = ref(column.value.title)
 
 const isUpdateHandler = () => {
   isUpdate.value = !isUpdate.value
 }
 
 const updateColumn = async () => {
-  await store.dispatch('updateColumn', { id: column._id, title: columnTitle.value })
+  await store.dispatch('updateColumn', { id: column.value._id, title: columnTitle.value })
 
   isUpdate.value = false
-  column.title = columnTitle.value
+  column.value.title = columnTitle.value
 }
 const deleteColumn = async () => {
-  await store.dispatch('removeColumn', { id: column._id })
+  await store.dispatch('removeColumn', { id: column.value._id })
 }
 </script>
 
@@ -108,6 +109,6 @@ const deleteColumn = async () => {
   outline: none;
 }
 .sheet {
-  max-height: 83vh;
+  min-height: 100vh;
 }
 </style>

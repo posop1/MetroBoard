@@ -10,9 +10,9 @@ export const setCookie = (name: string, value: string, options: any = {}) => {
 
   let updatedCookie = encodeURIComponent(name) + '=' + encodeURIComponent(value)
 
-  for (let optionKey in options) {
+  for (const optionKey in options) {
     updatedCookie += '; ' + optionKey
-    let optionValue = options[optionKey]
+    const optionValue = options[optionKey]
     if (optionValue !== true) {
       updatedCookie += '=' + optionValue
     }

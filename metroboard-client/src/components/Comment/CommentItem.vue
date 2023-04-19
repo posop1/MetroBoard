@@ -57,25 +57,25 @@ interface CommentItemProps {
   comment: IComment
 }
 
-const { comment } = defineProps<CommentItemProps>()
+const props = defineProps<CommentItemProps>()
 const emit = defineEmits(['update', 'remove'])
 
 const store = useStore(key)
 
 const commentAuthor = ref<string>()
-const text = ref<string>(comment.text)
+const text = ref<string>(props.comment.text)
 
 const isUpdate = ref<boolean>(false)
 
 const fetchAuthor = async () => {
-  const { data } = await api.get<IUser>(`/user/${comment.author}`)
+  const { data } = await api.get<IUser>(`/user/${props.comment.author}`)
 
   commentAuthor.value = data.username
 }
 
 const updateComment = () => {
   if (text.value != '') {
-    emit('update', { text: text.value, commentId: comment._id })
+    emit('update', { text: text.value, commentId: props.comment._id })
   }
 
   isUpdate.value = false

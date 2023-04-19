@@ -1,18 +1,23 @@
 import { Request, Response } from 'express'
 import { Task } from './task.model'
 import { Comment } from '../comment'
+import { Board } from '../board'
+import { Column } from '../column'
 
 export const createTask = async (req: Request, res: Response) => {
   try {
     const userId = req.headers.userId
-    const { title, columnId, description } = req.body
+    const { title, columnId, boardId, description } = req.body
 
     const newTask = new Task({
       title,
       columnId,
+      boardId,
       author: userId,
       description
     })
+
+    await Board.findByIdAndUpdate(boardId, { $push: { tasks: newTask._id } })
 
     await newTask.save()
 
@@ -91,6 +96,8 @@ export const removeTask = async (req: Request, res: Response) => {
     if (!task) {
       return res.status(404).json({ message: 'task not found' })
     }
+
+    await Board.findByIdAndUpdate(task.boardId, { $pull: { tasks: task._id } })
 
     res.json({ message: 'delete success' })
   } catch (error) {
