@@ -4,7 +4,7 @@
     v-if="status"
     type="error"
     title="Error"
-    :text="status"
+    :text="props.status"
   ></v-alert>
 </template>
 
@@ -13,5 +13,5 @@ interface AuthFormAlertProps {
   status: string
 }
 
-const { status } = defineProps<AuthFormAlertProps>()
+const props = defineProps<AuthFormAlertProps>()
 </script>

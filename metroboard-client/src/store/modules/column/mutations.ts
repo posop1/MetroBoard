@@ -1,6 +1,9 @@
 import { IColumn, IColumnState } from './types'
 
-export const setColumn = (state: IColumnState, payload: { columns: IColumn[]; status: string }) => {
+export const setColumns = (
+  state: IColumnState,
+  payload: { columns: IColumn[]; status: string }
+) => {
   state.columns = payload.columns
 
   state.status = payload.status
@@ -13,12 +16,12 @@ export const createColumn = (state: IColumnState, payload: { column: IColumn; st
 
 export const removeColumn = (
   state: IColumnState,
-  payload: { columnId: string; status: { message: string } }
+  payload: { columnId: string; status: string }
 ) => {
   const index = state.columns.findIndex((column) => column._id === payload.columnId)
   state.columns.splice(index, 1)
 
-  state.status = payload.status.message
+  state.status = payload.status
 }
 
 export const updateColumn = (state: IColumnState, payload: { column: IColumn; status: string }) => {

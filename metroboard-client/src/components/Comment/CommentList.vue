@@ -23,6 +23,7 @@
     <CommentItem
       v-for="comment in comments"
       :comment="comment"
+      :key="comment._id"
       @remove="removeComment"
       @update="updateComment"
     />
@@ -39,7 +40,7 @@ interface CommentListProps {
   taskId: string
 }
 
-const { taskId } = defineProps<CommentListProps>()
+const props = defineProps<CommentListProps>()
 
 const comments = ref<IComment[]>()
 const text = ref<string>()
@@ -49,7 +50,7 @@ const isLoading = ref<boolean>(false)
 const fetchComments = async () => {
   isLoading.value = true
 
-  const { data } = await api.get(`/task/${taskId}/comments`)
+  const { data } = await api.get(`/task/${props.taskId}/comments`)
 
   comments.value = data
   isLoading.value = false
@@ -59,7 +60,7 @@ const addComment = async () => {
   isLoading.value = true
 
   const newComment = {
-    taskId,
+    taskId: props.taskId,
     text: text.value
   }
 
@@ -75,6 +76,7 @@ const removeComment = async (commentId: string) => {
   isLoading.value = true
 
   const { data } = await api.delete(`/comment/${commentId}`)
+  console.log(data)
 
   comments.value = comments.value?.filter((comment) => comment._id !== commentId)
 

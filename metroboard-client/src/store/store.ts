@@ -4,6 +4,7 @@ import { InjectionKey } from 'vue'
 import auth from './modules/auth'
 import column from './modules/column'
 import task from './modules/task'
+import board from './modules/board'
 import { IColumn } from './modules/column/types'
 import { ITask } from './modules/task/types'
 
@@ -19,6 +20,7 @@ export const store = createStore({
   modules: {
     auth,
     column,
-    task
+    task,
+    board
   }
 })

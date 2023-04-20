@@ -1,12 +1,18 @@
 import { Request, Response } from 'express'
 import { Column } from './column.model'
+import { Board } from '../board'
 
 export const createColumn = async (req: Request, res: Response) => {
   try {
-    const { title } = req.body
+    const { title, boardId } = req.body
 
     const newColumn = new Column({
-      title
+      title,
+      boardId
+    })
+
+    await Board.findByIdAndUpdate(boardId, {
+      $push: { columns: newColumn._id }
     })
 
     await newColumn.save()
@@ -64,6 +70,10 @@ export const removeColumn = async (req: Request, res: Response) => {
     if (!column) {
       return res.status(404).json({ message: 'column not found' })
     }
+
+    await Board.findByIdAndUpdate(column.boardId, {
+      $pull: { columns: id }
+    })
 
     res.json({ message: 'delete success' })
   } catch (error) {

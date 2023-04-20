@@ -1,16 +1,25 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import { store } from '@/store/store'
-import Home from '../views/Home.vue'
+import Board from '@/views/Board.vue'
 import Task from '@/views/Task.vue'
+import Home from '@/views/Home.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
     name: 'home',
     component: Home,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/board/:boardId',
+    name: 'board',
+    component: Board,
     children: [
       {
-        path: '/task/:id',
+        path: 'task/:id',
         name: 'task modal',
         component: Task
       }
@@ -36,7 +45,7 @@ const router = createRouter({
   routes
 })
 
-router.beforeEach((to, from) => {
+router.beforeEach((to) => {
   if (to.meta.requiresAuth && !store.getters.checkAuth) {
     return {
       path: '/login',
