@@ -36,6 +36,20 @@
       </v-list-item>
     </v-list>
     <v-divider></v-divider>
+    <v-sheet class="pa-2 d-flex flex-column align-center">
+      <h3 class="text-h6">Boards</h3>
+      <v-list class="w-100">
+        <v-list-item
+          v-for="board in store.getters.getBoards"
+          :key="board._id"
+          link
+          :to="`/board/${board._id}`"
+        >
+          <v-icon class="mr-5">mdi-developer-board</v-icon>
+          {{ board.title }}
+        </v-list-item>
+      </v-list>
+    </v-sheet>
 
     <template v-slot:append>
       <div class="pa-2">

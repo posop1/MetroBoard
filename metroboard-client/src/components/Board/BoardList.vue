@@ -1,7 +1,7 @@
 <template>
   <v-list class="d-flex">
     <BoardItem
-      v-for="board in props.boards"
+      v-for="board in store.getters.getBoards"
       :board="board"
       :key="board._id"
     />
@@ -9,12 +9,14 @@
 </template>
 
 <script setup lang="ts">
-import { IBoard } from '@/store/modules/board/types'
 import BoardItem from './BoardItem.vue'
+import { key } from '@/store/store'
+import { onMounted } from 'vue'
+import { useStore } from 'vuex'
 
-interface BoardListProps {
-  boards: IBoard[]
-}
+const store = useStore(key)
 
-const props = defineProps<BoardListProps>()
+onMounted(() => {
+  store.dispatch('fetchBoards')
+})
 </script>

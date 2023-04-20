@@ -8,5 +8,3 @@
 <script setup lang="ts">
 import Sidebar from './Sidebar.vue'
 </script>
-
-<style lang="scss" scoped></style>
