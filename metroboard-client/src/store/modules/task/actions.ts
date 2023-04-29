@@ -2,7 +2,6 @@ import api from '@/api/instance'
 import { ITask } from './types'
 import { IActionsParams } from '@/types/common'
 
-//TODO: исправить название мутаций и т.д
 export const fetchTasks = async ({ commit }: IActionsParams, params: { boardId: string }) => {
   try {
     const { data } = await api.get<ITask[]>(`/board/${params.boardId}/tasks`)

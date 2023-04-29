@@ -2,7 +2,7 @@
   <v-list>
     <v-text-field
       :loading="isLoading"
-      class="w-75 mt-5"
+      class="mt-5 mr-5"
       variant="solo"
       label="Comment"
       clearable
@@ -11,12 +11,13 @@
       append-inner-icon="mdi-plus"
       single-line
       v-model="text"
+      :error-messages="textErrorMessage"
       @click:append-inner="addComment"
     >
     </v-text-field>
     <v-sheet
       v-if="comments?.length === 0"
-      class="w-75 d-flex justify-center"
+      class="d-flex justify-center"
     >
       <span>No comments</span>
     </v-sheet>
@@ -43,7 +44,9 @@ interface CommentListProps {
 const props = defineProps<CommentListProps>()
 
 const comments = ref<IComment[]>()
-const text = ref<string>()
+const text = ref<string>('')
+
+const textErrorMessage = ref<string>()
 
 const isLoading = ref<boolean>(false)
 
@@ -57,6 +60,11 @@ const fetchComments = async () => {
 }
 
 const addComment = async () => {
+  if (text.value === '') {
+    textErrorMessage.value = 'Enter a comment'
+    return
+  }
+
   isLoading.value = true
 
   const newComment = {
@@ -69,6 +77,7 @@ const addComment = async () => {
   comments.value?.push(data)
 
   text.value = ''
+  textErrorMessage.value = ''
   isLoading.value = false
 }
 

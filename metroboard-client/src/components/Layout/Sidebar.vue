@@ -40,7 +40,7 @@
       <h3 class="text-h6">Boards</h3>
       <v-list class="w-100">
         <v-list-item
-          v-for="board in store.getters.getBoards"
+          v-for="board in boards"
           :key="board._id"
           link
           :to="`/board/${board._id}`"
@@ -84,7 +84,12 @@
 import { key } from '@/store/store'
 import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
+import { computed } from 'vue'
 
 const store = useStore(key)
 const router = useRouter()
+
+const boards = computed(() => {
+  return store.getters.getBoards
+})
 </script>

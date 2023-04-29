@@ -1,6 +1,6 @@
 <template>
   <CustomScrollbar
-    :style="{ width: '100%', padding: '12px', minHeight: '95vh' }"
+    :style="{ width: '100%', padding: '12px', minHeight: '90vh' }"
     direction="horizontal"
   >
     <v-list class="d-flex h-100">

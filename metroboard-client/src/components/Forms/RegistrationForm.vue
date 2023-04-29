@@ -76,29 +76,33 @@ const repeatPasswordErrorMessage = ref('')
 const status = ref('')
 
 const submitHandler = async () => {
-  if (!username.value) {
-    usernameErrorMessage.value = 'Not valid username'
-    return
-  } else if (!password.value) {
-    passwordErrorMessage.value = 'Not valid password'
-    return
-  } else if (password.value !== repeatPassword.value) {
-    repeatPasswordErrorMessage.value = 'Repeat password does not match'
-    return
-  } else {
-    passwordErrorMessage.value = ''
-    usernameErrorMessage.value = ''
-    repeatPasswordErrorMessage.value = ''
+  try {
+    if (!username.value) {
+      usernameErrorMessage.value = 'Not valid username'
+      return
+    } else if (!password.value) {
+      passwordErrorMessage.value = 'Not valid password'
+      return
+    } else if (password.value !== repeatPassword.value) {
+      repeatPasswordErrorMessage.value = 'Repeat password does not match'
+      return
+    } else {
+      passwordErrorMessage.value = ''
+      usernameErrorMessage.value = ''
+      repeatPasswordErrorMessage.value = ''
 
-    isLoading.value = true
-    store.dispatch('registerUser', { username: username.value, password: password.value })
-    isLoading.value = false
+      isLoading.value = true
+      store.dispatch('registerUser', { username: username.value, password: password.value })
+      isLoading.value = false
+    }
+
+    password.value = ''
+    username.value = ''
+    repeatPassword.value = ''
+    status.value = store.getters.getUserStatus
+  } catch (error: any) {
+    usernameErrorMessage.value = error?.response.data.message
   }
-
-  password.value = ''
-  username.value = ''
-  repeatPassword.value = ''
-  status.value = store.getters.getUserStatus
 }
 
 watch(

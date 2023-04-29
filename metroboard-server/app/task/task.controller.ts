@@ -2,7 +2,6 @@ import { Request, Response } from 'express'
 import { Task } from './task.model'
 import { Comment } from '../comment'
 import { Board } from '../board'
-import { Column } from '../column'
 
 export const createTask = async (req: Request, res: Response) => {
   try {

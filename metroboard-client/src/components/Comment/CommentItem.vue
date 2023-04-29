@@ -1,5 +1,5 @@
 <template>
-  <v-list class="d-flex mb-2 align-center justify-space-between w-75">
+  <v-list class="d-flex mb-2 align-center justify-space-between">
     <v-sheet class="d-flex align-center w-75">
       <v-icon class="mr-2">mdi-account</v-icon>
       <v-sheet class="d-flex flex-column w-100">
@@ -19,28 +19,31 @@
         <span v-else>{{ comment.text }}</span>
       </v-sheet>
     </v-sheet>
-    <v-sheet v-if="store.getters.getUser.username === commentAuthor">
-      <v-btn
-        v-if="isUpdate === false"
-        icon="mdi-pencil"
-        size="small"
-        variant="plain"
-        @click="() => (isUpdate = true)"
-      ></v-btn>
-      <v-btn
-        v-else
-        icon="mdi-close"
-        size="small"
-        variant="plain"
-        @click="() => (isUpdate = false)"
-      >
-      </v-btn>
-      <v-btn
-        icon="mdi-delete"
-        size="small"
-        variant="plain"
-        @click="() => emit('remove', comment._id)"
-      ></v-btn>
+    <v-sheet class="d-flex flex-column">
+      <v-sheet v-if="store.getters.getUser.username === commentAuthor">
+        <v-btn
+          v-if="isUpdate === false"
+          icon="mdi-pencil"
+          size="small"
+          variant="plain"
+          @click="() => (isUpdate = true)"
+        ></v-btn>
+        <v-btn
+          v-else
+          icon="mdi-close"
+          size="small"
+          variant="plain"
+          @click="() => (isUpdate = false)"
+        >
+        </v-btn>
+        <v-btn
+          icon="mdi-delete"
+          size="small"
+          variant="plain"
+          @click="() => emit('remove', comment._id)"
+        ></v-btn>
+      </v-sheet>
+      <span class="text-disabled">{{ comment.createdAt.toString().slice(0, 10) }}</span>
     </v-sheet>
   </v-list>
 </template>

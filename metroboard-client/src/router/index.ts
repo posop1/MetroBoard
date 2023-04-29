@@ -19,7 +19,7 @@ const routes: Array<RouteRecordRaw> = [
     component: Board,
     children: [
       {
-        path: 'task/:id',
+        path: 'task/:taskId',
         name: 'task modal',
         component: Task
       }

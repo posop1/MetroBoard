@@ -97,6 +97,19 @@ export const removeBoard = async (req: Request, res: Response) => {
     await User.findByIdAndUpdate(userId, {
       $pull: { boards: board._id }
     })
+    //TODO: сделать так чтобы удалялись все таски этой доски и колонки
+
+    await Promise.all(
+      board.columns.map((column) => {
+        Column.findByIdAndRemove(column)
+      })
+    )
+
+    await Promise.all(
+      board.tasks.map((task) => {
+        Task.findByIdAndRemove(task)
+      })
+    )
 
     res.json({ message: 'remove success' })
   } catch (error) {

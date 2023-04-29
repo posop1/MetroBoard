@@ -34,7 +34,7 @@
         <span v-if="task?.deadline">Deadline: {{ task?.deadline }}</span>
 
         <v-textarea
-          class="w-75 mt-5"
+          class="mt-5 mr-5"
           bg-color="grey-lighten-3"
           clearable
           label="Description"
@@ -45,9 +45,16 @@
         ></v-textarea>
 
         <v-sheet
+          v-else-if="task.description === ''"
+          min-height="100"
+          class="mt-5 bg-grey-lighten-3 mr-5 pa-2 d-flex align-center justify-center"
+        >
+          <p>No description</p>
+        </v-sheet>
+        <v-sheet
           v-else
           min-height="200"
-          class="mt-5 bg-grey-lighten-3 w-75 pa-2"
+          class="mt-5 bg-grey-lighten-3 pa-2 mr-5"
         >
           <p>{{ task?.description }}</p>
         </v-sheet>
@@ -76,6 +83,20 @@
             @click="updateTask"
           >
             Complete Edit
+          </v-btn>
+
+          <v-btn
+            v-if="isUpdate"
+            size="small"
+            block
+            class="mb-3 bg-red-darken-1"
+            @click="
+              () => {
+                isUpdate = false
+              }
+            "
+          >
+            Cancle Edit
           </v-btn>
 
           <v-btn
@@ -131,7 +152,7 @@ const fetchTask = async () => {
   try {
     isLoading.value = true
 
-    const taskData = await api.get(`/task/${route.params.id}`)
+    const taskData = await api.get(`/task/${route.params.taskId}`)
 
     task.value = taskData.data
     description.value = task.value?.description
