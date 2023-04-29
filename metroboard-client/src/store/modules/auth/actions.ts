@@ -33,8 +33,6 @@ export const loginUser = async (
       password
     })
 
-    console.log(data)
-
     if (data.token) {
       commit('setUser', { user: data.user, token: data.token, status: 'success' })
       setCookie('token', data.token)
