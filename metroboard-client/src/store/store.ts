@@ -7,11 +7,13 @@ import task from './modules/task'
 import board from './modules/board'
 import { IColumn } from './modules/column/types'
 import { ITask } from './modules/task/types'
+import { IBoard } from './modules/board/types'
 
 export interface State {
   user: IUser
   columns: IColumn[]
   tasks: ITask[]
+  boards: IBoard[]
 }
 
 export const key: InjectionKey<Store<State>> = Symbol()

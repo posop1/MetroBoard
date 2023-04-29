@@ -8,30 +8,91 @@
       v-else
     >
       <v-sheet class="w-100">
-        <v-text-field
-          v-if="isUpdate"
-          class="w-75"
-          variant="solo"
-          label="Title"
-          clearable
-          bg-color="grey-lighten-3"
-          density="compact"
-          v-model="title"
-        ></v-text-field>
+        <v-sheet class="d-flex justify-space-between">
+          <v-sheet>
+            <v-text-field
+              v-if="isUpdate"
+              class="w-75"
+              variant="solo"
+              label="Title"
+              clearable
+              bg-color="grey-lighten-3"
+              density="compact"
+              v-model="title"
+            ></v-text-field>
 
-        <h2 v-else>{{ task?.title }}</h2>
-        <br />
+            <h2 v-else>{{ task?.title }}</h2>
+            <br />
 
-        <span>Author: {{ authorUsername }}</span>
-        <br />
+            <span>Author: {{ authorUsername }}</span>
+            <br />
 
-        <span>Created Date: {{ task?.createdAt.toString().slice(0, 10) }}</span>
-        <br />
+            <span>Created Date: {{ task?.createdAt.toString().slice(0, 10) }}</span>
+            <br />
 
-        <span v-if="task?.updatedAt !== task?.createdAt"
-          >Updated Date: {{ task?.updatedAt.toString().slice(0, 10) }}</span
-        >
-        <span v-if="task?.deadline">Deadline: {{ task?.deadline }}</span>
+            <span v-if="task?.updatedAt !== task?.createdAt"
+              >Updated Date: {{ task?.updatedAt.toString().slice(0, 10) }}</span
+            >
+            <span v-if="task?.deadline">Deadline: {{ task?.deadline }}</span>
+          </v-sheet>
+          <v-sheet class="d-flex flex-column align-center">
+            <RouterLink
+              :to="`/board/${route.params.boardId}`"
+              class="text-decoration-none"
+            >
+              <v-btn
+                icon="mdi-close"
+                size="x-small"
+                class="mb-3 bg-red-darken-1"
+              >
+              </v-btn>
+            </RouterLink>
+
+            <div v-if="store.getters.getUser.username === authorUsername">
+              <v-btn
+                v-if="isUpdate"
+                size="small"
+                block
+                class="mb-3 bg-red-darken-1"
+                @click="updateTask"
+              >
+                Complete Edit
+              </v-btn>
+
+              <v-btn
+                v-if="isUpdate"
+                size="small"
+                block
+                class="mb-3 bg-red-darken-1"
+                @click="
+                  () => {
+                    isUpdate = false
+                  }
+                "
+              >
+                Cancle Edit
+              </v-btn>
+
+              <v-btn
+                v-else
+                block
+                size="small"
+                class="mb-3 bg-red-darken-1"
+                @click="() => (isUpdate = true)"
+              >
+                Edit
+              </v-btn>
+
+              <v-btn
+                size="small"
+                block
+                class="bg-red-darken-1"
+                @click="removeTask"
+                >Delete</v-btn
+              >
+            </div>
+          </v-sheet>
+        </v-sheet>
 
         <v-textarea
           class="mt-5 mr-5"
@@ -60,63 +121,6 @@
         </v-sheet>
 
         <CommentList :taskId="task?._id" />
-      </v-sheet>
-      <v-sheet class="d-flex flex-column align-center">
-        <RouterLink
-          :to="`/board/${route.params.boardId}`"
-          class="text-decoration-none"
-        >
-          <v-btn
-            icon="mdi-close"
-            size="x-small"
-            class="mb-3 bg-red-darken-1"
-          >
-          </v-btn>
-        </RouterLink>
-
-        <div v-if="store.getters.getUser.username === authorUsername">
-          <v-btn
-            v-if="isUpdate"
-            size="small"
-            block
-            class="mb-3 bg-red-darken-1"
-            @click="updateTask"
-          >
-            Complete Edit
-          </v-btn>
-
-          <v-btn
-            v-if="isUpdate"
-            size="small"
-            block
-            class="mb-3 bg-red-darken-1"
-            @click="
-              () => {
-                isUpdate = false
-              }
-            "
-          >
-            Cancle Edit
-          </v-btn>
-
-          <v-btn
-            v-else
-            block
-            size="small"
-            class="mb-3 bg-red-darken-1"
-            @click="() => (isUpdate = true)"
-          >
-            Edit
-          </v-btn>
-
-          <v-btn
-            size="small"
-            block
-            class="bg-red-darken-1"
-            @click="removeTask"
-            >Delete</v-btn
-          >
-        </div>
       </v-sheet>
     </v-sheet>
   </v-dialog>

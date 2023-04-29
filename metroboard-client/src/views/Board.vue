@@ -126,6 +126,7 @@ watch(
   async () => {
     if (route.params.boardId) {
       await fetchColumns()
+      await fetchBoard()
     }
   }
 )

@@ -38,7 +38,10 @@
     <v-divider></v-divider>
     <v-sheet class="pa-2 d-flex flex-column align-center">
       <h3 class="text-h6">Boards</h3>
-      <v-list class="w-100">
+      <v-list
+        class="w-100"
+        v-if="boards.length > 0"
+      >
         <v-list-item
           v-for="board in boards"
           :key="board._id"
@@ -49,6 +52,11 @@
           {{ board.title }}
         </v-list-item>
       </v-list>
+      <span
+        v-else
+        class="mt-5 text-h6"
+        >No boards</span
+      >
     </v-sheet>
 
     <template v-slot:append>
@@ -85,11 +93,12 @@ import { key } from '@/store/store'
 import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 import { computed } from 'vue'
+import { IBoard } from '@/store/modules/board/types'
 
 const store = useStore(key)
 const router = useRouter()
 
-const boards = computed(() => {
+const boards = computed<IBoard[]>(() => {
   return store.getters.getBoards
 })
 </script>
