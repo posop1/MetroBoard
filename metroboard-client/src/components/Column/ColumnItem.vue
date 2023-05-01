@@ -33,7 +33,7 @@
             <v-btn
               class="w-100 bg-red-darken-1"
               size="small"
-              @click="isUpdateHandler"
+              @click="() => (isUpdate = true)"
             >
               <v-icon size="x-small">mdi-pen</v-icon>
               <span>Edit</span>
@@ -55,7 +55,7 @@
         v-if="isUpdate"
         icon="mdi-cancel"
         size="x-small"
-        @click="isUpdateHandler"
+        @click="() => (isUpdate = false)"
       >
       </v-btn>
       <v-btn
@@ -85,10 +85,6 @@ const store = useStore(key)
 const isUpdate = ref(false)
 const column = ref<IColumn>(props.column)
 const columnTitle = ref(column.value.title)
-
-const isUpdateHandler = () => {
-  isUpdate.value = !isUpdate.value
-}
 
 const updateColumn = async () => {
   await store.dispatch('updateColumn', { id: column.value._id, title: columnTitle.value })
