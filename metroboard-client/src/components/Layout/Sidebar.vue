@@ -20,17 +20,21 @@
       </router-link>
     </v-sheet>
     <v-list color="transparent">
-      <v-list-item>
+      <v-list-item
+        v-for="link in sideLinks"
+        :key="link.name"
+        class="w-100"
+      >
         <router-link
-          to="/"
+          :to="link.to"
           class="text-decoration-none"
         >
           <v-btn
             color="white"
             block
           >
-            <v-icon class="mr-5">mdi-home</v-icon>
-            Home
+            <v-icon class="mr-5">{{ link.icon }}</v-icon>
+            {{ link.name }}
           </v-btn>
         </router-link>
       </v-list-item>
@@ -94,6 +98,7 @@ import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 import { computed } from 'vue'
 import { IBoard } from '@/store/modules/board/types'
+import { sideLinks } from '@/constans'
 
 const store = useStore(key)
 const router = useRouter()

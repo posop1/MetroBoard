@@ -9,3 +9,9 @@ export enum IStatus {
   COMPLETE = 'complete',
   ERROR = 'error'
 }
+
+export interface ISideLinks {
+  to: string
+  name: string
+  icon: string
+}
