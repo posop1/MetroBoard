@@ -1,3 +1,16 @@
+<script lang="ts" setup>
+import { IBoard } from '@/store/modules/board/types'
+import { ref } from 'vue'
+
+interface BoardItemProps {
+  board: IBoard
+}
+
+const props = defineProps<BoardItemProps>()
+
+const board = ref<IBoard>(props.board)
+</script>
+
 <template>
   <RouterLink
     :to="`/board/${board._id}`"
@@ -12,16 +25,3 @@
     </v-sheet>
   </RouterLink>
 </template>
-
-<script lang="ts" setup>
-import { IBoard } from '@/store/modules/board/types'
-import { ref } from 'vue'
-
-interface BoardItemProps {
-  board: IBoard
-}
-
-const props = defineProps<BoardItemProps>()
-
-const board = ref<IBoard>(props.board)
-</script>

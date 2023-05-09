@@ -1,3 +1,43 @@
+<script setup lang="ts">
+import { IColumn } from '@/store/modules/column/types'
+import { ref } from 'vue'
+import TaskList from './TaskList.vue'
+import { useStore } from 'vuex'
+import { key } from '@/store/store'
+
+interface ColumnItemProps {
+  column: IColumn
+}
+const props = defineProps<ColumnItemProps>()
+const store = useStore(key)
+
+const isUpdate = ref(false)
+const column = ref<IColumn>(props.column)
+const columnTitle = ref(column.value.title)
+
+const updateColumn = async () => {
+  await store.dispatch('updateColumn', { id: column.value._id, title: columnTitle.value })
+
+  isUpdate.value = false
+  column.value.title = columnTitle.value
+}
+const deleteColumn = async () => {
+  await store.dispatch('removeColumn', { id: column.value._id })
+}
+</script>
+
+<style scoped>
+.input {
+  background: #eeeeee;
+  border-radius: 5px;
+  padding: 0px 0px;
+  outline: none;
+}
+.sheet {
+  min-height: 100vh;
+}
+</style>
+
 <template>
   <v-sheet
     min-width="350"
@@ -68,43 +108,3 @@
     <TaskList :column-id="column._id" />
   </v-sheet>
 </template>
-
-<script setup lang="ts">
-import { IColumn } from '@/store/modules/column/types'
-import { ref } from 'vue'
-import TaskList from '../Task/TaskList.vue'
-import { useStore } from 'vuex'
-import { key } from '@/store/store'
-
-interface ColumnItemProps {
-  column: IColumn
-}
-const props = defineProps<ColumnItemProps>()
-const store = useStore(key)
-
-const isUpdate = ref(false)
-const column = ref<IColumn>(props.column)
-const columnTitle = ref(column.value.title)
-
-const updateColumn = async () => {
-  await store.dispatch('updateColumn', { id: column.value._id, title: columnTitle.value })
-
-  isUpdate.value = false
-  column.value.title = columnTitle.value
-}
-const deleteColumn = async () => {
-  await store.dispatch('removeColumn', { id: column.value._id })
-}
-</script>
-
-<style scoped>
-.input {
-  background: #eeeeee;
-  border-radius: 5px;
-  padding: 0px 0px;
-  outline: none;
-}
-.sheet {
-  min-height: 100vh;
-}
-</style>

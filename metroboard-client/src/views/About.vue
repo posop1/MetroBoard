@@ -1,3 +1,7 @@
+<script setup lang="ts">
+import AboutView from '@/components/templates/AboutView.vue'
+</script>
+
 <template>
-  <div></div>
+  <AboutView />
 </template>

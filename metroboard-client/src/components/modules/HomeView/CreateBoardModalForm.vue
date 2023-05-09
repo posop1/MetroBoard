@@ -1,3 +1,34 @@
+<script setup lang="ts">
+import { key } from '@/store/store'
+import { ref } from 'vue'
+import { useStore } from 'vuex'
+
+const store = useStore(key)
+
+const isCreating = ref<boolean>(false)
+const isLoading = ref<boolean>(false)
+const title = ref<string>()
+
+const titleErrorMessage = ref<string>()
+
+const createBoard = async () => {
+  if (!title.value) {
+    titleErrorMessage.value = 'Enter a name'
+    return
+  } else {
+    isLoading.value = true
+    titleErrorMessage.value = ''
+
+    await store.dispatch('createBoard', { title: title.value })
+
+    isLoading.value = false
+    title.value = ''
+
+    isCreating.value = false
+  }
+}
+</script>
+
 <template>
   <v-sheet
     class="bg-red-darken-1 mr-5 mb-5 rounded-lg d-flex justify-center align-center"
@@ -46,34 +77,3 @@
     </v-sheet>
   </v-dialog>
 </template>
-
-<script setup lang="ts">
-import { key } from '@/store/store'
-import { ref } from 'vue'
-import { useStore } from 'vuex'
-
-const store = useStore(key)
-
-const isCreating = ref<boolean>(false)
-const isLoading = ref<boolean>(false)
-const title = ref<string>()
-
-const titleErrorMessage = ref<string>()
-
-const createBoard = async () => {
-  if (!title.value) {
-    titleErrorMessage.value = 'Enter a name'
-    return
-  } else {
-    isLoading.value = true
-    titleErrorMessage.value = ''
-
-    await store.dispatch('createBoard', { title: title.value })
-
-    isLoading.value = false
-    title.value = ''
-
-    isCreating.value = false
-  }
-}
-</script>

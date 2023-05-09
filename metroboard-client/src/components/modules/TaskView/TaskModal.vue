@@ -1,3 +1,94 @@
+<script setup lang="ts">
+import api from '@/api/instance'
+import { IUser } from '@/store/modules/auth/types'
+import { ITask } from '@/store/modules/task/types'
+import { key } from '@/store/store'
+import { onMounted, ref, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import { useStore } from 'vuex'
+import CommentList from './CommentList.vue'
+import Loading from '@/components/elements/Loading.vue'
+
+const router = useRouter()
+const route = useRoute()
+const store = useStore(key)
+
+const task = ref<ITask>()
+
+const isOpenDialog = ref<boolean>(true)
+const isUpdate = ref<boolean>(false)
+const isLoading = ref<boolean>(false)
+const isError = ref<boolean>(false)
+
+const description = ref<string>()
+const title = ref<string>()
+const authorUsername = ref<string>()
+
+const fetchTask = async () => {
+  try {
+    isLoading.value = true
+
+    const taskData = await api.get(`/task/${route.params.taskId}`)
+
+    task.value = taskData.data
+    description.value = task.value?.description
+    title.value = task.value?.title
+
+    const userData = await api.get<IUser>(`/user/${task.value?.author}`)
+
+    authorUsername.value = userData.data.username
+
+    isLoading.value = false
+  } catch (error) {
+    isError.value = true
+  }
+}
+
+const removeTask = async () => {
+  try {
+    await store.dispatch('removeTask', { taskId: task.value?._id })
+    isOpenDialog.value = false
+  } catch (error) {
+    isError.value = true
+  }
+}
+
+const updateTask = async () => {
+  try {
+    isLoading.value = true
+
+    const updatedTask = {
+      taskId: task.value?._id,
+      title: title.value,
+      description: description.value,
+      columnId: task.value?.columnId
+    }
+    await store.dispatch('updateTask', updatedTask)
+
+    isUpdate.value = false
+    fetchTask()
+    isLoading.value = false
+  } catch (error) {
+    isError.value = true
+  }
+}
+
+watch(
+  () => isOpenDialog.value,
+  () => router.replace(`/board/${task.value?.boardId}`)
+)
+
+onMounted(() => {
+  fetchTask()
+})
+</script>
+
+<style scoped>
+.card {
+  cursor: pointer;
+}
+</style>
+
 <template>
   <v-dialog v-model="isOpenDialog">
     <Loading v-if="isLoading || !task" />
@@ -125,94 +216,3 @@
     </v-sheet>
   </v-dialog>
 </template>
-
-<script setup lang="ts">
-import api from '@/api/instance'
-import { IUser } from '@/store/modules/auth/types'
-import { ITask } from '@/store/modules/task/types'
-import { key } from '@/store/store'
-import { onMounted, ref, watch } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
-import { useStore } from 'vuex'
-import CommentList from '../Comment/CommentList.vue'
-import Loading from '@/components/Loading.vue'
-
-const router = useRouter()
-const route = useRoute()
-const store = useStore(key)
-
-const task = ref<ITask>()
-
-const isOpenDialog = ref<boolean>(true)
-const isUpdate = ref<boolean>(false)
-const isLoading = ref<boolean>(false)
-const isError = ref<boolean>(false)
-
-const description = ref<string>()
-const title = ref<string>()
-const authorUsername = ref<string>()
-
-const fetchTask = async () => {
-  try {
-    isLoading.value = true
-
-    const taskData = await api.get(`/task/${route.params.taskId}`)
-
-    task.value = taskData.data
-    description.value = task.value?.description
-    title.value = task.value?.title
-
-    const userData = await api.get<IUser>(`/user/${task.value?.author}`)
-
-    authorUsername.value = userData.data.username
-
-    isLoading.value = false
-  } catch (error) {
-    isError.value = true
-  }
-}
-
-const removeTask = async () => {
-  try {
-    await store.dispatch('removeTask', { taskId: task.value?._id })
-    isOpenDialog.value = false
-  } catch (error) {
-    isError.value = true
-  }
-}
-
-const updateTask = async () => {
-  try {
-    isLoading.value = true
-
-    const updatedTask = {
-      taskId: task.value?._id,
-      title: title.value,
-      description: description.value,
-      columnId: task.value?.columnId
-    }
-    await store.dispatch('updateTask', updatedTask)
-
-    isUpdate.value = false
-    fetchTask()
-    isLoading.value = false
-  } catch (error) {
-    isError.value = true
-  }
-}
-
-watch(
-  () => isOpenDialog.value,
-  () => router.replace(`/board/${task.value?.boardId}`)
-)
-
-onMounted(() => {
-  fetchTask()
-})
-</script>
-
-<style scoped>
-.card {
-  cursor: pointer;
-}
-</style>

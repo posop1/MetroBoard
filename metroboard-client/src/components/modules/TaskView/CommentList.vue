@@ -1,36 +1,3 @@
-<template>
-  <v-list>
-    <v-text-field
-      :loading="isLoading"
-      class="mt-5 mr-5"
-      variant="solo"
-      label="Comment"
-      clearable
-      density="compact"
-      bg-color="grey-lighten-3"
-      append-inner-icon="mdi-plus"
-      single-line
-      v-model="text"
-      :error-messages="textErrorMessage"
-      @click:append-inner="addComment"
-    >
-    </v-text-field>
-    <v-sheet
-      v-if="comments?.length === 0"
-      class="d-flex justify-center"
-    >
-      <span>No comments</span>
-    </v-sheet>
-    <CommentItem
-      v-for="comment in comments"
-      :comment="comment"
-      :key="comment._id"
-      @remove="removeComment"
-      @update="updateComment"
-    />
-  </v-list>
-</template>
-
 <script setup lang="ts">
 import api from '@/api/instance'
 import { IComment } from '@/types/comments'
@@ -111,3 +78,36 @@ onMounted(() => {
   fetchComments()
 })
 </script>
+
+<template>
+  <v-list>
+    <v-text-field
+      :loading="isLoading"
+      class="mt-5 mr-5"
+      variant="solo"
+      label="Comment"
+      clearable
+      density="compact"
+      bg-color="grey-lighten-3"
+      append-inner-icon="mdi-plus"
+      single-line
+      v-model="text"
+      :error-messages="textErrorMessage"
+      @click:append-inner="addComment"
+    >
+    </v-text-field>
+    <v-sheet
+      v-if="comments?.length === 0"
+      class="d-flex justify-center"
+    >
+      <span>No comments</span>
+    </v-sheet>
+    <CommentItem
+      v-for="comment in comments"
+      :comment="comment"
+      :key="comment._id"
+      @remove="removeComment"
+      @update="updateComment"
+    />
+  </v-list>
+</template>

@@ -1,7 +1,7 @@
 <template>
-  <TaskModal />
+  <TaskView />
 </template>
 
 <script setup lang="ts">
-import TaskModal from '@/components/Modals/TaskModal.vue'
+import TaskView from '@/components/templates/TaskView.vue'
 </script>

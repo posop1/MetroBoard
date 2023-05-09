@@ -1,16 +1,7 @@
 <template>
-  <v-layout :full-height="true">
-    <v-row
-      align="center"
-      justify="center"
-    >
-      <v-col>
-        <LoginForm />
-      </v-col>
-    </v-row>
-  </v-layout>
+  <LoginView />
 </template>
 
 <script setup lang="ts">
-import LoginForm from '@/components/Forms/LoginForm.vue'
+import LoginView from '@/components/templates/LoginView.vue'
 </script>

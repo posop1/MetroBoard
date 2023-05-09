@@ -1,3 +1,45 @@
+<script setup lang="ts">
+import api from '@/api/instance'
+import { IUser } from '@/store/modules/auth/types'
+import { key } from '@/store/store'
+import { IComment } from '@/types/comments'
+import { onMounted, ref } from 'vue'
+import { useStore } from 'vuex'
+
+interface CommentItemProps {
+  comment: IComment
+}
+
+const props = defineProps<CommentItemProps>()
+const emit = defineEmits(['update', 'remove'])
+
+const store = useStore(key)
+
+const commentAuthor = ref<string>()
+const text = ref<string>(props.comment.text)
+
+const isUpdate = ref<boolean>(false)
+
+const fetchAuthor = async () => {
+  const { data } = await api.get<IUser>(`/user/${props.comment.author}`)
+
+  commentAuthor.value = data.username
+}
+
+const updateComment = () => {
+  if (text.value != '') {
+    emit('update', { text: text.value, commentId: props.comment._id })
+  }
+
+  isUpdate.value = false
+  text.value = ''
+}
+
+onMounted(() => {
+  fetchAuthor()
+})
+</script>
+
 <template>
   <v-list class="d-flex mb-2 align-center justify-space-between">
     <v-sheet class="d-flex align-center w-75">
@@ -47,45 +89,3 @@
     </v-sheet>
   </v-list>
 </template>
-
-<script setup lang="ts">
-import api from '@/api/instance'
-import { IUser } from '@/store/modules/auth/types'
-import { key } from '@/store/store'
-import { IComment } from '@/types/comments'
-import { onMounted, ref } from 'vue'
-import { useStore } from 'vuex'
-
-interface CommentItemProps {
-  comment: IComment
-}
-
-const props = defineProps<CommentItemProps>()
-const emit = defineEmits(['update', 'remove'])
-
-const store = useStore(key)
-
-const commentAuthor = ref<string>()
-const text = ref<string>(props.comment.text)
-
-const isUpdate = ref<boolean>(false)
-
-const fetchAuthor = async () => {
-  const { data } = await api.get<IUser>(`/user/${props.comment.author}`)
-
-  commentAuthor.value = data.username
-}
-
-const updateComment = () => {
-  if (text.value != '') {
-    emit('update', { text: text.value, commentId: props.comment._id })
-  }
-
-  isUpdate.value = false
-  text.value = ''
-}
-
-onMounted(() => {
-  fetchAuthor()
-})
-</script>
