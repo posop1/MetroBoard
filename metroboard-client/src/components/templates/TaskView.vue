@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import TaskModal from '@/components/modules/TaskModal.vue'
+import TaskModal from '@/components/modules/TaskView/TaskModal.vue'
 </script>
 
 <template>

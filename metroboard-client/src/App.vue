@@ -8,8 +8,8 @@
 </template>
 
 <script lang="ts" setup>
-import Layout from './components/Layout/Layout.vue'
-import Loading from './components/Loading.vue'
+import Layout from '@/components/Layout/Layout.vue'
+import Loading from '@/components/elements/Loading.vue'
 import { onMounted, ref } from 'vue'
 import { useStore } from 'vuex'
 import { key } from './store/store'

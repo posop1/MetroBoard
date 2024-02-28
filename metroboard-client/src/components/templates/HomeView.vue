@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import BoardList from '@/components/Board/BoardList.vue'
+import BoardList from '@/components/modules/HomeView/BoardList.vue'
 import { key } from '@/store/store'
 import { useStore } from 'vuex'
 import { onMounted } from 'vue'
