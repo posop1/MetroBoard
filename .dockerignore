@@ -1,0 +1,16 @@
+**/node_modules/
+**/dist
+
+README.md
+
+.gitignore
+.git
+.cache
+
+.prettierignore
+client/.prettierrc.json
+client/.eslintrc.js
+
+server/.prettierrc.json
+
+.env.example
