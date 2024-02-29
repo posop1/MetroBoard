@@ -1,0 +1,54 @@
+version: '3.7'
+
+services:
+  client:
+    build: 
+      context: ./client
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    volumes:
+      - client:/app/
+    container_name: metroboard_client
+    command: npm run preview
+    ports:
+      - "3000:3000"
+    networks:
+      - metroboard
+
+  server:
+    build: 
+      context: ./server
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    volumes:
+      - server:/app/
+    container_name: metroboard_server
+    command: npm run start:prod
+    ports:
+      - "3001:3001"
+    networks:
+      - metroboard
+    env_file:
+      - ./server/.env
+
+  mysql:
+    image: mysql:5.7
+    restart: unless-stopped
+    volumes:
+      - mysql:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    networks:
+      - metroboard
+    environment:
+      MYSQL_ROOT_PASSWORD: 1!QQQqqq
+      MYSQL_DATABASE: metroboard
+
+networks:
+  metroboard:
+
+volumes:
+  client:
+  server:
+  mysql:
+
